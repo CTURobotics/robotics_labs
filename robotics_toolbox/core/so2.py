@@ -13,9 +13,9 @@ class SO2:
     """This class represents an SO2 rotations internally represented by rotation
     matrix."""
 
-    def __init__(self, angle: float = 0.0, degrees=False) -> None:
+    def __init__(self, angle: float = 0.0) -> None:
         """Creates a rotation transformation that rotates vector by a given angle, that
-        is expressed in radians unless variable degrees is set to true."""
+        is expressed in radians."""
         super().__init__()
         # todo HW01: implement computation of rotation matrix from the given angle
         self.rot: np.ndarray = np.zeros((2, 2))
@@ -27,12 +27,12 @@ class SO2:
 
     @property
     def angle(self) -> float:
-        """Return angle from the internal rotation matrix representation."""
+        """Return angle [rad] from the internal rotation matrix representation."""
         # todo: HW01: implement computation of rotation matrix from angles.
         angle = 0.0
         return angle
 
-    def transform(self, vector: ArrayLike) -> np.ndarray:
+    def act(self, vector: ArrayLike) -> np.ndarray:
         """Rotate given 2D vector by this SO2 transformation."""
         v = np.asarray(vector)
         assert v.shape == (2,)

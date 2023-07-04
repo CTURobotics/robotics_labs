@@ -1,0 +1,27 @@
+name: static_code_analysis_and_tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: 3.10
+      - name: Conda install
+        run: conda install -c conda-forge poetry
+      - run: poetry install
+      - run: ruff check robotics_toolbox
+      - run: black --check --diff --verbose robotics_toolbox
+#      - run: pytest tests/
+#      - run: pytest tests/hw01/mandatory
+#      - run: pytest tests/hw02/mandatory
