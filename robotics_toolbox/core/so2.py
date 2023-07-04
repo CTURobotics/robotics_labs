@@ -4,7 +4,7 @@
 # Created on: 2023-07-4
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
-from typing import Self
+from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike
 
@@ -20,7 +20,7 @@ class SO2:
         # todo HW01: implement computation of rotation matrix from the given angle
         self.rot: np.ndarray = np.zeros((2, 2))
 
-    def __mul__(self, other: Self) -> Self:
+    def __mul__(self, other: SO2) -> SO2:
         """Compose two rotations, i.e., self * other"""
         # todo: HW01: implement composition of two rotation.
         pass
@@ -38,6 +38,6 @@ class SO2:
         assert v.shape == (2,)
         return self.rot @ v
 
-    def __eq__(self, other: Self) -> bool:
+    def __eq__(self, other: SO2) -> bool:
         """Returns true if two transformations are almost equal."""
         return np.allclose(self.rot, other.rot)
