@@ -17,7 +17,7 @@ class TestSE2(unittest.TestCase):
         self.assertEqual(SE2(), SE2(np.zeros(2), SO2(angle=0.0)))
 
     def test_only_rotation_and_translation_variables(self):
-        t = SO2()
+        t = SE2()
         all_vars = list(vars(t).keys())
         self.assertEqual(len(all_vars), 2)
         self.assertTrue("translation" in all_vars)
@@ -61,7 +61,7 @@ class TestSE2(unittest.TestCase):
             pin_ta = pin.SE3(pin.exp(np.array([0, 0, a])), np.append(t, 0))
             pin_tb = pin.SE3(pin.exp(np.array([0, 0, a_])), np.append(t_, 0))
             pin_c: pin.SE3 = pin_ta * pin_tb
-            m = pin_c.homogeneous()
+            m = pin_c.homogeneous
 
             self.assertTrue(np.allclose(m[:2, :2], tc.rotation.rot))
             self.assertTrue(np.allclose(m[:2, 3], tc.translation))

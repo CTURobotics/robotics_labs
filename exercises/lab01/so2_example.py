@@ -8,13 +8,14 @@
 # transformation.
 # Note, you need to complete robotics_toolbox/core/so2.py in order for script this to
 # work.
+import numpy as np
 
 from robotics_toolbox.core.so2 import SO2
 from robotics_toolbox.render import RendererPlanar
 
 # Let's create two frames, one reference/identity frame and one rotated by 45 degrees
 t0 = SO2()  # identity
-t1 = SO2(angle=45.0, degrees=True)
+t1 = SO2(angle=np.deg2rad(45))
 
 # Let's visualize them
 renderer = RendererPlanar()

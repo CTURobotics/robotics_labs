@@ -11,11 +11,7 @@ What to explain during lab:
 - complete so2.py and go through so2_example.py
 - go through other lab01 examples without solution - show student what they should see if their implementation is correct
 - how to upload to brute; what brute checks
-
-## Transformations in 2D
-## SO2
-## SE2
-
+- CI on GitHub (code style, tests)
 
 ## Homework
 **_TBD: mandatory and voluntary parts of HW_**
