@@ -9,10 +9,10 @@ import numpy as np
 import inspect
 import pinocchio as pin
 
-from robotics_toolbox.core.so2 import SO2
+from robotics_toolbox.core import SO2
 
 
-class TestTransformations(unittest.TestCase):
+class TestSO2(unittest.TestCase):
     def test_so2_initialization(self):
         self.assertEqual(SO2().rot.shape, (2, 2))
         self.assertAlmostEqual(SO2(np.pi / 7).angle, np.pi / 7)
@@ -51,6 +51,19 @@ class TestTransformations(unittest.TestCase):
         """Test that you are not using pinocchio inside your implementation."""
         with open(inspect.getfile(SO2)) as f:
             self.assertTrue("pinocchio" not in f.read())
+
+    def test_inverse(self):
+        np.random.seed(0)
+        for _ in range(100):
+            a = np.random.uniform(-2 * np.pi, 2 * np.pi)
+            self.assertEqual(SO2(a) * SO2(a).inverse(), SO2())
+
+    def test_composition(self):
+        np.random.seed(0)
+        for _ in range(100):
+            a = np.random.uniform(-2 * np.pi, 2 * np.pi)
+            b = np.random.uniform(-2 * np.pi, 2 * np.pi)
+            self.assertEqual(SO2(a) * SO2(b), SO2(a + b))
 
 
 if __name__ == "__main__":
