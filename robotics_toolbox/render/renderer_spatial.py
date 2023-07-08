@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 
 import numpy as np
-from robomeshcat import Robot, Scene, Object
+from robomeshcat import Scene, Object
 
 from robotics_toolbox.core import SE3, SO3
 from robotics_toolbox.robots.drone import Drone
