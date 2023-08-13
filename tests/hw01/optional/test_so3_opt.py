@@ -17,19 +17,19 @@ class TestSO3Opt(unittest.TestCase):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi)
-            self.assertEqual(SO3.rx(a), SO3(pin.exp([a, 0, 0])))
+            self.assertEqual(SO3.rx(a), SO3(pin.exp(np.array([a, 0, 0]))))
 
     def test_ry(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi)
-            self.assertEqual(SO3.ry(a), SO3(pin.exp([0, a, 0])))
+            self.assertEqual(SO3.ry(a), SO3(pin.exp(np.array([0, a, 0]))))
 
     def test_rz(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi)
-            self.assertEqual(SO3.rz(a), SO3(pin.exp([0, 0, a])))
+            self.assertEqual(SO3.rz(a), SO3(pin.exp(np.array([0, 0, a]))))
 
     def test_from_q(self):
         np.random.seed(0)
@@ -37,7 +37,7 @@ class TestSO3Opt(unittest.TestCase):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             r = SO3(pin.exp(a))
             q = pin.Quaternion(r.rot)
-            self.assertEqual(SO3.from_quaternion(q), r)
+            self.assertEqual(SO3.from_quaternion(q.coeffs()), r)
 
     def test_to_q(self):
         np.random.seed(0)
@@ -45,7 +45,7 @@ class TestSO3Opt(unittest.TestCase):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             r = SO3(pin.exp(a))
             q = r.to_quaternion()
-            self.assertEqual(pin.Quaternion(r.rot), pin.Quaternion(q))
+            self.assertEqual(r, SO3(pin.Quaternion(q).toRotationMatrix()))
 
     def test_from_ea(self):
         np.random.seed(0)
@@ -76,11 +76,8 @@ class TestSO3Opt(unittest.TestCase):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
-            angle = np.linalg.norm(a)
-            axis = a / angle
-            angle2, axis2 = SO3(pin.exp(a)).to_angle_axis()
-            self.assertAlmostEqual(angle2, angle)
-            self.assertTrue(np.allclose(axis, axis2))
+            angle, axis = SO3(pin.exp(a)).to_angle_axis()
+            self.assertEqual(SO3(pin.exp(a)), SO3(pin.exp(angle * axis)))
 
 
 if __name__ == "__main__":
