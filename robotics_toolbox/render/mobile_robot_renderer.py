@@ -24,8 +24,8 @@ class MobileRobotRenderer:
         )
         self.im = ax.imshow(self.img, transform=self._transform_from_pose(robot.pose))
 
-    def update(self, robot: MobileRobot):
-        self.im.set_transform(self._transform_from_pose(robot.pose))
+    def update(self):
+        self.im.set_transform(self._transform_from_pose(self.robot.pose))
 
     def _transform_from_pose(self, pose: SE2):
         h, w = self.img.shape[:2]

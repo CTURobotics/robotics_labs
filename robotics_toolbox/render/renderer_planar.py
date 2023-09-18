@@ -11,20 +11,27 @@ from numpy.typing import ArrayLike
 
 from robotics_toolbox.core import SO2, SE2
 from robotics_toolbox.render.mobile_robot_renderer import MobileRobotRenderer
-from robotics_toolbox.robots.mobile_robot import MobileRobot
+from robotics_toolbox.render.planar_manipulator_renderer import (
+    PlanarManipulatorRenderer,
+)
+from robotics_toolbox.render.se2_renderer import SE2Renderer
+from robotics_toolbox.robots import PlanarManipulator, MobileRobot
 
 
 class RendererPlanar:
     def __init__(
-        self, xlim: tuple[float, float] = (-1, 1), ylim: tuple[float, float] = (-1, 1)
+        self,
+        xlim: tuple[float, float] = (-1, 1),
+        ylim: tuple[float, float] = (-1, 1),
+        lim_scale: float = 1.0,
     ) -> None:
         super().__init__()
-        self.ylim = ylim
-        self.xlim = xlim
+        self.ylim = np.asarray(ylim) * lim_scale
+        self.xlim = np.asarray(xlim) * lim_scale
         self.fig, self.ax = plt.subplots(
             1, 1, squeeze=True
         )  # type: plt.Figure, plt.Axes
-        self.ax.axis("equal")
+        self.ax.set_aspect("equal", adjustable="box")
         self.ax.set_xlabel("x [m]")
         self.ax.set_ylabel("y [m]")
         plt.ion()
@@ -32,6 +39,9 @@ class RendererPlanar:
         self._redraw()
 
         self.mobile_robots: dict[MobileRobot, MobileRobotRenderer] = {}
+        self.manipulators: dict[PlanarManipulator, PlanarManipulatorRenderer] = {}
+        self.se2s: dict[SE2, SE2Renderer] = {}
+        self.so2s: dict[SO2, SE2Renderer] = {}
 
     def _redraw(self):
         self.ax.set_xlim(*self.xlim)
@@ -53,15 +63,18 @@ class RendererPlanar:
 
     def plot_so2(self, t: SO2, length=0.1, *args, **kwargs):
         """Plot SO2 frame in the origin."""
-        self.plot_se2(SE2(rotation=t), length=length, *args, **kwargs)
+        if t in self.so2s:
+            self.so2s[t].update()
+        else:
+            self.so2s[t] = SE2Renderer(self.ax, t, length, *args, **kwargs)
+        self._redraw()
 
     def plot_se2(self, t: SE2, length=0.1, *args, **kwargs):
         """Plot SE2 frame."""
-        o = t.act(np.array([0, 0]))
-        x = t.act(np.array([length, 0]))
-        y = t.act(np.array([0, length]))
-        self.plot_line_between_points(o, x, "r-", *args, **kwargs)
-        self.plot_line_between_points(o, y, "g-", *args, **kwargs)
+        if t in self.se2s:
+            self.se2s[t].update()
+        else:
+            self.se2s[t] = SE2Renderer(self.ax, t, length, *args, **kwargs)
         self._redraw()
 
     def plot_mobile_robot(self, robot: MobileRobot):
@@ -69,9 +82,28 @@ class RendererPlanar:
         for the same robot, this function redraw the robot to the new pose instead
         of drawing a new one."""
         if robot in self.mobile_robots:
-            self.mobile_robots[robot].update(robot)
+            self.mobile_robots[robot].update()
         else:
             self.mobile_robots[robot] = MobileRobotRenderer(self.ax, robot)
+        self._redraw()
+
+    def plot_manipulator(self, robot: PlanarManipulator):
+        if robot in self.manipulators:
+            self.manipulators[robot].update()
+        else:
+            self.manipulators[robot] = PlanarManipulatorRenderer(self.ax, robot)
+        self._redraw()
+
+    def redraw_all(self):
+        """Redraw all the manipulators that has been ploted before."""
+        for o in self.so2s.values():
+            o.update()
+        for o in self.se2s.values():
+            o.update()
+        for o in self.mobile_robots.values():
+            o.update()
+        for o in self.manipulators.values():
+            o.update()
         self._redraw()
 
     @staticmethod

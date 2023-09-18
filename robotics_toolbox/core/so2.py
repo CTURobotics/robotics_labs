@@ -46,3 +46,6 @@ class SO2:
     def __eq__(self, other: SO2) -> bool:
         """Returns true if two transformations are almost equal."""
         return np.allclose(self.rot, other.rot)
+
+    def __hash__(self):
+        return id(self)

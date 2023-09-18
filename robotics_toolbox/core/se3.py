@@ -43,9 +43,20 @@ class SE3:
         # todo: HW1 implement transformation of a given vector
         return v
 
+    def set_from(self, other: SE3):
+        """Copy the properties into current instance."""
+        self.translation = other.translation
+        self.rotation = other.rotation
+
     def __eq__(self, other: SE3) -> bool:
         """Returns true if two transformations are almost equal."""
         return (
             np.allclose(self.translation, other.translation)
             and self.rotation == other.rotation
         )
+
+    def __hash__(self):
+        return id(self)
+
+    def __repr__(self):
+        return f"(translation={self.translation}, log_rotation={self.rotation.log()})"

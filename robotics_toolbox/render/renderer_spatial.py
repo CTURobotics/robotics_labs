@@ -8,19 +8,19 @@ import time
 from pathlib import Path
 
 import numpy as np
-from robomeshcat import Scene, Object
+from robomeshcat import Scene, Object, Robot
+import meshcat.geometry as g
 
 from robotics_toolbox.core import SE3, SO3
-from robotics_toolbox.robots.drone import Drone
+from robotics_toolbox.robots import Drone, SpatialManipulator
 
 
 class RendererSpatial(Scene):
     def __init__(self) -> None:
         super().__init__()
         self.drones: dict[Drone, Object] = {}
-
-    def __del__(self):
-        time.sleep(1.0)
+        self.manipulators: dict[SpatialManipulator, Robot] = {}
+        self.poses: dict[SE3, Object] = {}
 
     @staticmethod
     def wait_for_enter(msg: str | None = None):
@@ -28,7 +28,12 @@ class RendererSpatial(Scene):
             msg = "Press enter to continue."
         input(msg)
 
-    def plot_drone(self, robot: Drone):
+    def wait_at_the_end(self):
+        """A method that just sleep for a few seconds. Call it at the end to prevent
+        interruption of the connection with the renderer."""
+        time.sleep(10.0)
+
+    def plot_drone(self, robot: Drone, render=True):
         vis_pose = SE3(
             rotation=SO3.exp([0, 0, -np.pi / 2]) * SO3.exp([np.pi / 2, 0, 0])
         )
@@ -42,7 +47,28 @@ class RendererSpatial(Scene):
                 color=[0.24, 0.24, 0.8],
             )
             self.add_object(self.drones[robot])
-        self.render()
+        if render:
+            self.render()
+
+    def plot_manipulator(self, robot: SpatialManipulator, render=True):
+        if robot in self.manipulators:
+            self.manipulators[robot].pose = self._se3_to_meshcat_pose(robot.base_pose)
+            self.manipulators[robot][:] = robot.q[:]
+        else:
+            self.manipulators[robot] = robot.meshcat_robot
+            self.add_robot(self.manipulators[robot])
+            self.plot_manipulator(robot)
+        if render:
+            self.render()
+
+    def plot_se3(self, t: SE3, scale=1.0, render=True):
+        if t in self.poses:
+            self.poses[t].pose = self._se3_to_meshcat_pose(t)
+        else:
+            self.poses[t] = Object(g.triad(scale), pose=self._se3_to_meshcat_pose(t))
+            self.add_object(self.poses[t])
+        if render:
+            self.render()
 
     @staticmethod
     def _se3_to_meshcat_pose(pose: SE3):

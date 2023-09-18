@@ -104,3 +104,6 @@ class SO3:
         """
         # todo: HW1opt: implement from euler angles
         raise NotImplementedError("Needs to be implemented")
+
+    def __hash__(self):
+        return id(self)
