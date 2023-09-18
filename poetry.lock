@@ -484,6 +484,26 @@ cmeel-boost = ">=1.82,<2.0"
 build = ["cmeel-eigen"]
 
 [[package]]
+name = "example-robot-data"
+version = "4.0.8"
+description = "Set of robot URDFs for benchmarking and developed examples."
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "example_robot_data-4.0.8-0-py310-none-any.whl", hash = "sha256:84d4fb53418bb558e8495eb200b4cb4e5d91b3e16f8ac3ebe60feee9612a7c80"},
+    {file = "example_robot_data-4.0.8-0-py311-none-any.whl", hash = "sha256:0ec1be0ce3a06b17d85b39d5774e99ed4d73d34675044a577367fdf4d3896c06"},
+    {file = "example_robot_data-4.0.8-0-py38-none-any.whl", hash = "sha256:d3dc2ed601b47bf624364efed65932c105bfbb1b7cfc025803a93f0d2337f8c1"},
+    {file = "example_robot_data-4.0.8-0-py39-none-any.whl", hash = "sha256:fb4224e7f8831cf31c53fc11712f12860712c7389e48033d7534b59657870ef6"},
+]
+
+[package.dependencies]
+cmeel = "*"
+pin = "*"
+
+[package.extras]
+build = ["pin[build]"]
+
+[[package]]
 name = "exceptiongroup"
 version = "1.1.2"
 description = "Backport of PEP 654 (exception groups)"
@@ -1173,6 +1193,23 @@ files = [
 tests = ["pytest"]
 
 [[package]]
+name = "pycollada"
+version = "0.7.2"
+description = "python library for reading and writing collada documents"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pycollada-0.7.2.tar.gz", hash = "sha256:70a2630ed499bdab718c0e61a3e6ae3698130d7e4654e89cdecde51bfdaea56f"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.2"
+
+[package.extras]
+prettyprint = ["lxml"]
+validation = ["lxml"]
+
+[[package]]
 name = "pycparser"
 version = "2.21"
 description = "C parser in Python"
@@ -1565,4 +1602,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.10"
-content-hash = "53f7c5cc480e40a38f79e4e7f0eb57acbea222d4ac0cb38367877260339a4ead"
+content-hash = "17afc1be426121ba3e4200892792acc8db62f6aeef1b249ce646944995b91f3c"
