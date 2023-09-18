@@ -10,7 +10,7 @@ For example, to test the first homework locally you can run:
 ```bash
 pytest tests/hw01 # you will get maximum points if all tests here passes
 pytest tests/hw01/mandatory # for mandatory part of the HW
-pytest tests/hw01/voluntary # for voluntary part of the HW
+pytest tests/hw01/optional # for optional part of the HW
 ```
 In addition to tests, there are exercises that use your implemented functionality and demonstrates the usage of the framework. See [exercises](exercises) folder.
 
