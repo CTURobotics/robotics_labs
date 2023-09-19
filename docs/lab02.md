@@ -26,5 +26,5 @@ Mandatory HW:
 
 If following tests will pass, your implementation is correct:
 ```bash
-pytest tests/hw01/mandatory
+pytest tests/hw02/mandatory
 ```

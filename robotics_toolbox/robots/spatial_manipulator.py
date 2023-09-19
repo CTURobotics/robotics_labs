@@ -55,14 +55,34 @@ class SpatialManipulator:
     def flange_pose(self, flange_link_name: str | None = None) -> SE3:
         """Return a flange pose defined by the link name. Flange link name can be
         empty for Panda robot."""
-        if flange_link_name is None:
-            assert self.robot_name is not None, "You need to specify flange_link_name"
-            if self.robot_name.lower() == "panda":
-                flange_link_name = "panda_link8"
-            else:
-                assert False, "You need to specify flange_link_name"
+        flange_link_name = self._resolve_flange_link_name(flange_link_name)
         self.meshcat_robot[:] = self.q
         pin.updateFramePlacements(self.meshcat_robot._model, self.meshcat_robot._data)
         frame_id = self.meshcat_robot._model.getFrameId(flange_link_name)
         m = self.meshcat_robot._data.oMf[frame_id].homogeneous
         return SE3(m[:3, 3], SO3(rotation_matrix=m[:3, :3]))
+
+    def jacobian(self, flange_link_name: str | None = None) -> np.ndarray:
+        """Computes jacobian of the manipulator for the given structure and
+        configuration."""
+        flange_link_name = self._resolve_flange_link_name(flange_link_name)
+        fid = self.meshcat_robot._model.getFrameId(flange_link_name)
+        return pin.computeFrameJacobian(
+            self.meshcat_robot._model,
+            self.meshcat_robot._data,
+            self.q,
+            fid,
+            pin.ReferenceFrame.LOCAL_WORLD_ALIGNED,
+        )
+
+    def _resolve_flange_link_name(self, flange_link_name: str | None = None) -> str:
+        """Resolve flange link name. Use known for known robots if None, raise error
+        otherwise."""
+        if flange_link_name is None:
+            assert self.robot_name is not None, "You need to specify flange_link_name"
+            if self.robot_name.lower() == "panda":
+                return "panda_link8"
+            else:
+                assert False, "You need to specify flange_link_name"
+        assert self.meshcat_robot._model.existFrame(flange_link_name)
+        return flange_link_name

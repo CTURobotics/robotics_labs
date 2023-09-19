@@ -14,7 +14,7 @@ from matplotlib import pyplot as plt
 from robotics_toolbox.render import RendererSpatial, RendererPlanar
 
 
-def save_fig(output_folder: Path | str, renderer=None):
+def save_fig(output_folder: Path | str = "/tmp/animation", renderer=None):
     """Save fig of the renderer into the given output folder. Output folder is cleaned
     on the first run of this command. If renderer not provided use plt.savefig.
     This name of figures is img_{id}.png."""
@@ -41,7 +41,9 @@ def save_fig(output_folder: Path | str, renderer=None):
 
 
 def create_mp4_from_folder(
-    folder: Path | str, output: Path | str | None = None, fps: int = 10
+    folder: Path | str = "/tmp/animation",
+    output: Path | str | None = None,
+    fps: int = 10,
 ):
     """From the folder that contains images names img_X.png, create mp4 animation."""
     folder = Path(folder)
@@ -52,7 +54,9 @@ def create_mp4_from_folder(
 
     call(
         f"ffmpeg -y -framerate {fps} -i {folder}/img_%00d.png -c:v libx264"
-        f" -profile:v high -crf 20 -pix_fmt yuv420p {output}",
+        f" -profile:v high -crf 20 -pix_fmt yuv420p"
+        ' -vf "pad=ceil(iw/2)*2:ceil(ih/2)*2"'
+        f" {output}",
         shell=True,
     )
     return output
