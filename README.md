@@ -36,3 +36,5 @@ poetry install # this will install the toolbox
 
 # Homework and laboratories
 - [Lab01](docs/lab01.md) - transformations
+- [Lab02](docs/lab02.md) - forward kinematics
+- [Lab03](docs/lab03.md) - differential kinematics

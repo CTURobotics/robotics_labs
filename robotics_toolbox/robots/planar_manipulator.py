@@ -14,7 +14,6 @@ class PlanarManipulator:
     def __init__(
         self,
         link_lengths: ArrayLike | None = None,
-        fixed_rotations: ArrayLike | None = None,
         structure: list[str] | str | None = None,
         base_pose: SE2 | None = None,
         gripper_length: float = 0.2,
@@ -23,22 +22,19 @@ class PlanarManipulator:
         """
         Creates a planar manipulator composed by rotational and prismatic joints.
         The manipulator kinematics is defines by following kinematics chain:
-         T_flange = (T_0 T(q_0)) (T_1 T(q_1)) ... (T_n T(q_n)), 
+         T_flange = (T_base) T(q_0) T(q_1) ... T_n(q_n), 
         where
-         T_i describes the pose of the joint w.r.t. the previous frame computed as:
-         T_0 = base_pose
-         T_i = R(alpha_{i-1}) Tx(l_{i-1})
+         T_i describes the pose of the next link w.r.t. the previous link computed as:
+         T_i = R(q_i) Tx(l_i) if joint is revolute,
+         T_i = R(l_i) Tx(q_i) if joint is prismatic,
         with
-         alpha_i is taken from @param fixed_rotations, and
          l_i is taken from @param link_lengths;
-        and
-         T(q_i) is the joint transformation, R(q_i) for revolute joints Tx(q_i) for 
-         prismatic. Type of joint is defined by the @param structure.
+         type of joint is defined by the @param structure.
         
         Args:
-            link_lengths: the lengths of individual links in [m]
-            fixed_rotations: fixed joint rotation defined in [rad] [0] * DoF by default
-            structure: sequence of joint types, either R or P, [R]*DoF by default
+            link_lengths: either the lengths of links attached to revolute joints in [m]
+                or initial rotation of prismatic joint [rad].
+            structure: sequence of joint types, either R or P, [R]*n by default
             base_pose: mounting of the robot, identity by default
             gripper_length: length of the gripper measured from the flange
         """
@@ -47,9 +43,6 @@ class PlanarManipulator:
             [0.5] * 3 if link_lengths is None else link_lengths
         )
         n = len(self.link_lengths)
-        self.fixed_rotations: np.ndarray = (
-            np.zeros(n) if fixed_rotations is None else fixed_rotations
-        )
         self.base_pose = SE2() if base_pose is None else base_pose
         self.structure = ["R"] * n if structure is None else structure
         assert len(self.structure) == len(self.link_lengths)
@@ -70,9 +63,10 @@ class PlanarManipulator:
         return SE2()
 
     def fk_all_links(self) -> list[SE2]:
-        """Compute FK for frames that are attached to the joints of the robot."""
-        # todo HW02: implement fk, see description of class for information where
-        # frames are located
+        """Compute FK for frames that are attached to the links of the robot.
+        The first frame is base_frame, the next frames are described in the constructor.
+        """
+        # todo HW02: implement fk
         frames = []
         return frames
 
@@ -96,7 +90,7 @@ class PlanarManipulator:
         )
 
     def jacobian(self) -> np.ndarray:
-        """Computes Jacobian of the manipulator for the given structure and
+        """Computes jacobian of the manipulator for the given structure and
         configuration."""
         jac = np.zeros((3, len(self.q)))
         # todo: HW03 implement jacobian computation
@@ -104,5 +98,5 @@ class PlanarManipulator:
 
     def jacobian_finite_difference(self, delta=1e-5) -> np.ndarray:
         jac = np.zeros((3, len(self.q)))
-        # todo: HW03 implement jacobian computation numerically
+        # todo: HW03 implement jacobian computation
         return jac

@@ -32,25 +32,18 @@ class TestFKPlanar(unittest.TestCase):
         model: pin.Model = pin.Model()
         jid = 0
         pose = robot.base_pose
-        for li, ai, qi, jtype in zip(
-            robot.link_lengths, robot.fixed_rotations, robot.q, robot.structure
-        ):
+        for li, qi, jtype in zip(robot.link_lengths, robot.q, robot.structure):
             if jtype == "R":
                 jid = model.addJoint(
-                    jid,
-                    pin.JointModelRZ(),
-                    self._se2_to_pin_se3(pose),
-                    f"j{jid}",
+                    jid, pin.JointModelRZ(), self._se2_to_pin_se3(pose), f"j{jid}"
                 )
-                pose = SE2(rotation=SO2(ai)) * SE2(translation=[li, 0])
+                pose = SE2(translation=[li, 0])
             elif jtype == "P":
+                pose *= SE2(rotation=SO2(li))
                 jid = model.addJoint(
-                    jid,
-                    pin.JointModelPX(),
-                    self._se2_to_pin_se3(pose),
-                    f"j{jid}",
+                    jid, pin.JointModelPX(), self._se2_to_pin_se3(pose), f"j{jid}"
                 )
-                pose = SE2(rotation=SO2(ai)) * SE2(translation=[li, 0])
+                pose = SE2()
 
         model.addFrame(
             pin.Frame(f"flange", jid, 0, self._se2_to_pin_se3(pose), OP_FRAME)
@@ -62,8 +55,10 @@ class TestFKPlanar(unittest.TestCase):
         n = 3
         robot = PlanarManipulator(
             link_lengths=np.random.uniform(0.1, 0.3, size=n),
-            fixed_rotations=np.random.uniform(-np.pi / 2, np.pi / 2, size=n),
-            base_pose=SE2([-0.2, 0.3], rotation=SO2(0.34)),
+            base_pose=SE2(
+                translation=np.random.uniform(-0.5, 0.5, size=2),
+                rotation=SO2(np.random.uniform(-np.pi, np.pi)),
+            ),
             structure=np.random.choice(["R", "P"], size=n),
         )
 
@@ -72,14 +67,18 @@ class TestFKPlanar(unittest.TestCase):
 
             model = self._convert_planar_manipualtor_to_pin(robot)
             data: pin.Data = model.createData()
-            pin.forwardKinematics(model, data, np.pad(robot.q, (0, 0)))
+            pin.forwardKinematics(model, data, robot.q)
             pin.updateFramePlacements(model, data)
 
             frames = robot.fk_all_links()
             self.assertEqual(len(frames), robot.dof + 1)
+            self.assertEqual(frames[0], robot.base_pose)
 
-            for fref, f in zip(data.oMi[1:], frames):
-                self._assert_se2_equal_pin_se3(f, fref)
+            for fref, f, qi, jt, li in zip(
+                data.oMi[1:], frames[1:], robot.q, robot.structure, robot.link_lengths
+            ):
+                d = SE2([-li, 0]) if jt == "R" else SE2()
+                self._assert_se2_equal_pin_se3(f * d, fref)
             self._assert_se2_equal_pin_se3(frames[-1], data.oMf[1])
             self._assert_se2_equal_pin_se3(robot.flange_pose(), data.oMf[1])
 
