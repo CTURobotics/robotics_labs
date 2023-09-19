@@ -43,6 +43,7 @@ def save_fig(output_folder: Path | str, renderer=None):
 def create_mp4_from_folder(
     folder: Path | str, output: Path | str | None = None, fps: int = 10
 ):
+    """From the folder that contains images names img_X.png, create mp4 animation."""
     folder = Path(folder)
     if output is None:
         output = folder.joinpath("animation.mp4")
@@ -57,16 +58,18 @@ def create_mp4_from_folder(
     return output
 
 
-def create_gif_from_mp4(input: Path | str, output: Path | str | None = None):
-    input = Path(input)
+def create_gif_from_mp4(input_vid: Path | str, output: Path | str | None = None):
+    """Convert input_vid (mp4) to GIF by first generating the color pallet."""
+    input_vid = Path(input_vid)
     if output is None:
-        output = input.parent.joinpath("animation.gif")
+        output = input_vid.parent.joinpath("animation.gif")
     output = Path(output)
     assert output.suffix == ".gif"
     output_palette = output.parent.joinpath(f"{output.stem}_palette.png")
 
-    call(f"ffmpeg -y -i {input} -vf palettegen {output_palette}", shell=True)
+    call(f"ffmpeg -y -i {input_vid} -vf palettegen {output_palette}", shell=True)
     call(
-        f"ffmpeg -y -i {input} -i {output_palette} -filter_complex paletteuse -r 10 {output}",
+        f"ffmpeg -y -i {input_vid} -i {output_palette} -filter_complex paletteuse "
+        f"-r 10 {output}",
         shell=True,
     )
