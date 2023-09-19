@@ -21,7 +21,7 @@ python standard library, numpy, robomeshcat (only for visualization)
 
 
 ## Installation
-The best way to start developing your own version of the toolbox is to use this template repository to create your own **private** repository on GitHub.
+The best way to start developing your own version of the toolbox is to use this template repository to [create](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository) your own **private** repository on GitHub.
 
 **_TBD:_** Create a gif instruction on how to do that
 
