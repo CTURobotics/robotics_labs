@@ -38,3 +38,4 @@ poetry install # this will install the toolbox
 - [Lab01](docs/lab01.md) - transformations
 - [Lab02](docs/lab02.md) - forward kinematics
 - [Lab03](docs/lab03.md) - differential kinematics
+- [Lab04](docs/lab04.md) - inverse kinematics
