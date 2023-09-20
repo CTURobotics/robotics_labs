@@ -100,3 +100,29 @@ class PlanarManipulator:
         jac = np.zeros((3, len(self.q)))
         # todo: HW03 implement jacobian computation
         return jac
+
+    def ik_numerical(
+        self,
+        flange_pose_desired: SE2,
+        max_iterations=1000,
+        acceptable_err=1e-4,
+    ) -> bool:
+        """Compute IK numerically. Value self.q is used as an initial guess and updated
+        to solution of IK. Returns True if converged, False otherwise."""
+        # todo: HW04 implement numerical IK
+
+        return False
+
+    def ik_analytical(self, flange_pose_desired: SE2) -> list[np.ndarray]:
+        """Compute IK analytically, return all solutions for joint limits being
+        from -pi to pi for revolute joints -inf to inf for prismatic joints."""
+        assert self.structure in (
+            "RRR",
+            "PRR",
+        ), "Only RRR or PRR structure is supported"
+
+        # todo: HW04 implement analytical IK for RRR manipulator
+        # todo: HW04 optional implement analytical IK for PRR manipulator
+        if self.structure == "RRR":
+            pass
+        return []

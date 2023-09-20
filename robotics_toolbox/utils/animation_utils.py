@@ -11,7 +11,6 @@ from subprocess import call
 
 from imageio import imwrite
 from matplotlib import pyplot as plt
-from robotics_toolbox.render import RendererSpatial, RendererPlanar
 
 
 def save_fig(output_folder: Path | str = "/tmp/animation", renderer=None):
@@ -31,6 +30,8 @@ def save_fig(output_folder: Path | str = "/tmp/animation", renderer=None):
 
     img_path = output_folder.joinpath(f"img_{save_fig.last_fig_id[output_folder]}.png")
     if renderer is not None:
+        from robotics_toolbox.render import RendererSpatial, RendererPlanar
+
         if isinstance(renderer, RendererSpatial):
             imwrite(img_path, renderer.render_image())
         elif isinstance(renderer, RendererPlanar):
