@@ -47,7 +47,7 @@ class SO3:
         return SO3()
 
     def act(self, vector: ArrayLike) -> np.ndarray:
-        """Rotate given 2D vector by this SO2 transformation."""
+        """Rotate given vector by this transformation."""
         v = np.asarray(vector)
         assert v.shape == (3,)
         return self.rot @ v
