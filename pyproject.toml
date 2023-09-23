@@ -16,6 +16,7 @@ pin = "^2.6.19"
 example-robot-data = "^4.0.8"
 pycollada = "^0.7.2"
 shapely = "^2.0.1"
+anytree = "^2.9.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.2"

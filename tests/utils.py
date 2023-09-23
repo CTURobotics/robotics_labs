@@ -5,6 +5,7 @@
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 # Test utilities
 
+from __future__ import annotations
 import numpy as np
 import pinocchio as pin
 from pinocchio import OP_FRAME
