@@ -22,6 +22,7 @@ Mandatory HW:
    - log mapping
    - composition of rotations
    - inverse 
+   - act on a vector
  - `robotics_toolbox/core/se3.py`
    - composition of transformations
    - inverse

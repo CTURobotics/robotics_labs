@@ -16,14 +16,19 @@ class SE2:
     """Transformation in 2D that is composed of rotation and translation."""
 
     def __init__(
-        self, translation: ArrayLike | None = None, rotation: SO2 | None = None
+        self, translation: ArrayLike | None = None, rotation: SO2 | float | None = None
     ) -> None:
         """Crete an SE2 transformation. Identity is the default."""
         super().__init__()
         self.translation = (
             np.asarray(translation) if translation is not None else np.zeros(2)
         )
-        self.rotation = rotation if rotation is not None else SO2()
+        if isinstance(rotation, SO2):
+            self.rotation = rotation
+        elif isinstance(rotation, float):
+            self.rotation = SO2(rotation)
+        else:
+            self.rotation = SO2()
         assert self.translation.shape == (2,)
 
     def __mul__(self, other: SE2) -> SE2:
@@ -37,7 +42,7 @@ class SE2:
         return SE2()
 
     def act(self, vector: ArrayLike) -> np.ndarray:
-        """Rotate given 2D vector by this SO2 transformation."""
+        """Transform given 2D vector by this SE2 transformation."""
         v = np.asarray(vector)
         assert v.shape == (2,)
         # todo: HW1 implement transformation of a given vector

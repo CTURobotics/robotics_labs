@@ -16,7 +16,7 @@ In addition to tests, there are exercises that use your implemented functionalit
 
 You are allowed to use only the following software packages to implement missing parts of the code:
 ```
-python standard library, numpy, robomeshcat (only for visualization) 
+python standard library, numpy, robomeshcat (only for visualization), anytree
 ```
 
 
@@ -27,7 +27,7 @@ The best way to start developing your own version of the toolbox is to use this 
 
 We recommend using conda to create a replicable environment:
 ```bash
-conda create -n ctu_robotics python=3.10 poetry
+conda create -n ctu_robotics python=3.8 poetry
 conda activate ctu_robotics
 # Clone your repository and install it
 git clone <your_github_repo>
@@ -39,3 +39,4 @@ poetry install # this will install the toolbox
 - [Lab02](docs/lab02.md) - forward kinematics
 - [Lab03](docs/lab03.md) - differential kinematics
 - [Lab04](docs/lab04.md) - inverse kinematics
+- [Lab06](docs/lab06.md) - motion planning

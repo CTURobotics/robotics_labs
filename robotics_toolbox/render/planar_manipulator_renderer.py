@@ -57,6 +57,9 @@ class PlanarManipulatorRenderer:
                 for a, b in gripper
             ],
         }
+        if self.robot.obstacles is not None:
+            for p in list(self.robot.obstacles.geoms):
+                self.ax.fill(*p.exterior.xy, color="tab:grey")
 
     def plot_line_between_points(self, a: ArrayLike, b: ArrayLike, *args, **kwargs):
         """Plot line between two given 2D points a and b. Other arguments passed to

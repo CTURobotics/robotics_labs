@@ -5,6 +5,7 @@
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
 
+from __future__ import annotations
 from pathlib import Path
 from shutil import rmtree
 from subprocess import call

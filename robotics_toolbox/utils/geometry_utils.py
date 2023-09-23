@@ -4,6 +4,7 @@
 # Created on: 2023-09-20
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
+from __future__ import annotations
 from itertools import islice
 
 import numpy as np

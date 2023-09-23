@@ -4,3 +4,4 @@ from .geometry_utils import (
     circle_circle_intersection,
     circle_line_intersection,
 )
+from .configuration_utils import interpolate, distance_between_configurations

@@ -4,6 +4,7 @@
 # Created on: 2023-07-4
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
+from __future__ import annotations
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -87,15 +88,17 @@ class RendererPlanar:
             self.mobile_robots[robot] = MobileRobotRenderer(self.ax, robot)
         self._redraw()
 
-    def plot_manipulator(self, robot: PlanarManipulator):
+    def plot_manipulator(self, robot: PlanarManipulator, **kwargs):
         if robot in self.manipulators:
             self.manipulators[robot].update()
         else:
-            self.manipulators[robot] = PlanarManipulatorRenderer(self.ax, robot)
+            self.manipulators[robot] = PlanarManipulatorRenderer(
+                self.ax, robot, **kwargs
+            )
         self._redraw()
 
     def redraw_all(self):
-        """Redraw all the manipulators that has been ploted before."""
+        """Redraw all the manipulators that has been plotted before."""
         for o in self.so2s.values():
             o.update()
         for o in self.se2s.values():

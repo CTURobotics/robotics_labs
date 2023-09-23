@@ -5,6 +5,7 @@
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
 
+from __future__ import annotations
 import matplotlib.pyplot as plt
 from numpy.typing import ArrayLike
 import numpy as np

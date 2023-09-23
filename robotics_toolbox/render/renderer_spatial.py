@@ -4,6 +4,7 @@
 # Created on: 2023-07-7
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
+from __future__ import annotations
 import time
 from pathlib import Path
 

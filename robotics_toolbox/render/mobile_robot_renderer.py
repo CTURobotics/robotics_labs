@@ -23,6 +23,9 @@ class MobileRobotRenderer:
             Path(__file__).parent.joinpath("data").joinpath("mobile_robot.png")
         )
         self.im = ax.imshow(self.img, transform=self._transform_from_pose(robot.pose))
+        if self.robot.obstacles is not None:
+            for p in list(self.robot.obstacles.geoms):
+                self.ax.fill(*p.exterior.xy, color="tab:grey")
 
     def update(self):
         self.im.set_transform(self._transform_from_pose(self.robot.pose))
