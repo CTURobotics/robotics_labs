@@ -22,7 +22,7 @@ class SpatialManipulator(RobotBase):
         mesh_folder_path: Path | str | list[Path] | list[str] | None = None,
         srdf_path: Path | str | None = None,
         base_pose: SE3 | None = None,
-        **kwargs
+        **kwargs,
     ) -> None:
         """
         base_pose: where is the robot base placed

@@ -15,14 +15,35 @@ The links frames are defined as follows:
 
 
 ## URDF
+Your goal is to create an URDF file named `robot_hw.urdf` with a description of spatial robot with 3 DoF.
+The robot is made of the following links and joints:
+ - a cuboid base,
+ - prismatic joint in Y axis direction between the cuboid base and the following link,
+ - fictional link without geometry for connecting two joints
+ - revolute joint around Z axis between the prismatic joint and the following link,
+ - cylinder link placed atop the cuboid base,
+ - sphere link placed atop the cylinder link
+ - revolute joint around X axis between the sphere link and the following link,
+ - cylinder link connected to the sphere via aforementioned joint.
 
-TBD: describes the kinematics of the spatial robot to implement
+See the drawings bellow for the dimensions and animation of the expected structure.
+
+ ![](lab02_spatial.gif)
+
+Description of the robot dimensions in centimeters:
+ ![](lab02_spatial_description.png)
+
+Positions of the frames of the links of the robot:
+ ![](lab02_spatial_frames.png)
+
 
 ## Tests
 
 Mandatory HW:
  - `robotics_toolbox/robots/planar_manipualator.py`
    - implement `fk_all_links` and `flange_pose` functions
+ - `exercises/lab02/robot_hw.urdf`
+   - create an URDF and store it in `exercises/lab02/` folder
 
 If following tests will pass, your implementation is correct:
 ```bash
