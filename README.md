@@ -3,7 +3,7 @@ This repository contains the code base for creating a robotic toolbox in Python.
 It is a template code that you need to complete to make it usable.
 Our homework will guide you to complete it successfully.
 
-There are two types of homework: (i) mandatory, which you need to finish to pass the course at CTU, and (ii) voluntary, for which you can get bonus points but which are not required to pass the course.
+There are two types of homework: (i) mandatory, which you need to finish to pass the course at CTU, and (ii) optional, for which you can get bonus points but which are not required to pass the course.
 We use unit tests to verify that your implementation is correct.
 For example, to test the first homework locally you can run:
 
@@ -22,8 +22,7 @@ python standard library, numpy, robomeshcat (only for visualization), anytree
 
 ## Installation
 The best way to start developing your own version of the toolbox is to use this template repository to [create](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository) your own **private** repository on GitHub.
-
-**_TBD:_** Create a gif instruction on how to do that
+See [GitHub tutorial](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for template repository cloning.
 
 We recommend using conda to create a replicable environment:
 ```bash
