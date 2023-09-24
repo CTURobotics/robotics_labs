@@ -33,6 +33,11 @@ git clone <your_github_repo>
 poetry install # this will install the toolbox
 ```
 
+## BRUTE
+
+To get points for the assignments in CTU evaluation system BRUTE, zip the whole repository and upload the zip to the BRUTE system.
+For example, to get points for HW01, upload the whole repository to BRUTE assignments hw01 before the deadline that you see in the system.
+
 # Homework and laboratories
 - [Lab01](docs/lab01.md) - transformations
 - [Lab02](docs/lab02.md) - forward kinematics
