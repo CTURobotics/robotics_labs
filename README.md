@@ -30,7 +30,20 @@ conda create -n ctu_robotics python=3.8 poetry
 conda activate ctu_robotics
 # Clone your repository and install it
 git clone <your_github_repo>
+cd <your_github_repo_name>
 poetry install # this will install the toolbox
+```
+
+### Windows
+In windows, one of our dependency (Pinocchio) cannot be installed via pip/poetry.
+You need to install it by conda instead:
+```bash
+conda create -n ctu_robotics python=3.8 poetry
+conda activate ctu_robotics
+conda install -c conda-forge poetry pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
+git clone <your_github_repo>
+cd <your_github_repo_name>
+poetry install --only-root
 ```
 
 ## BRUTE
