@@ -29,7 +29,7 @@ class SO2:
     @property
     def angle(self) -> float:
         """Return angle [rad] from the internal rotation matrix representation."""
-        # todo: HW01: implement computation of rotation matrix from angles.
+        # todo: HW01: implement computation of the angle from rotation matrix self.rot.
         angle = 0.0
         return angle
 

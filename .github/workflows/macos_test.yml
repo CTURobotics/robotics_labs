@@ -1,0 +1,27 @@
+name: macos_test
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: macos-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: conda-incubator/setup-miniconda@v2
+        with:
+          python-version: "3.8"
+      - name: Conda install
+        run: conda install -c conda-forge poetry pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
+      - run: poetry install --only-root
+      - run: ruff check robotics_toolbox
+      - run: black --check --diff --verbose robotics_toolbox
+      - run: pytest tests/
+#      - run: pytest tests/hw01/mandatory
+#      - run: pytest tests/hw02/mandatory

@@ -24,26 +24,45 @@ python standard library, numpy, robomeshcat (only for visualization), anytree
 The best way to start developing your own version of the toolbox is to use this template repository to [create](https://docs.github.com/en/repositories/creating-and-managing-repositories/duplicating-a-repository) your own **private** repository on GitHub.
 See [GitHub tutorial](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template) for template repository cloning.
 
+### Linux
 We recommend using conda to create a replicable environment:
 ```bash
-conda create -n ctu_robotics python=3.8 poetry
-conda activate ctu_robotics
 # Clone your repository and install it
 git clone <your_github_repo>
 cd <your_github_repo_name>
-poetry install # this will install the toolbox
+
+# Create an conda environment with python 3.8 
+conda create -n ctu_robotics python=3.8 poetry
+conda activate ctu_robotics
+poetry install # this will install the toolbox and all the dependencies
+```
+
+### MacOS
+For macOS, one of our dependency (Pinocchio) cannot be installed via pip/poetry.
+You need to install dependencies by conda instead:
+```bash
+# Clone your repository and install it
+git clone <your_github_repo>
+cd <your_github_repo_name>
+
+# Create an conda environment with python 3.8 
+conda create -n ctu_robotics python=3.8 poetry
+conda activate ctu_robotics
+conda install -c conda-forge poetry pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
+poetry install --only-root # this will install the toolbox without dependencies
 ```
 
 ### Windows
 In windows, one of our dependency (Pinocchio) cannot be installed via pip/poetry.
-You need to install it by conda instead:
+You need to install dependencies by conda instead:
 ```bash
+git clone <your_github_repo>
+cd <your_github_repo_name>
+
 conda create -n ctu_robotics python=3.8 poetry
 conda activate ctu_robotics
 conda install -c conda-forge poetry pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
-git clone <your_github_repo>
-cd <your_github_repo_name>
-poetry install --only-root
+poetry install --only-root # this will install the toolbox without dependencies
 ```
 
 ## BRUTE
