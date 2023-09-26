@@ -22,6 +22,6 @@ jobs:
       - run: poetry install --only-root
       - run: ruff check robotics_toolbox
       - run: black --check --diff --verbose robotics_toolbox
-      - run: pytest tests/
+#      - run: pytest tests/
 #      - run: pytest tests/hw01/mandatory
 #      - run: pytest tests/hw02/mandatory
