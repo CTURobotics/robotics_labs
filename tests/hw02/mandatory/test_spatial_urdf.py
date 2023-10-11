@@ -81,7 +81,10 @@ class TestSpatialURDF(unittest.TestCase):
             for k, j in enumerate(range(2, len(pin_mod.frames), 2)):
                 # no need to check first two frames (universe link and root joint)
                 # check only every second frame (robot is of type link - join - link...)
-                self.assertTrue(check_if_identity(pin_data.oMf[j], pose_o_i[i][k]))
+                self.assertTrue(
+                    check_if_identity(pin_data.oMf[j], pose_o_i[i][k]),
+                    msg=f"Configuration {i} failed. \n frame {i} should be \n {pose_o_i[i][k].homogeneous} \n but is \n {pin_data.oMf[j].homogeneous}",
+                )
 
 
 if __name__ == "__main__":
