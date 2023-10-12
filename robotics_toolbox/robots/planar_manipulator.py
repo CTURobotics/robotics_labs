@@ -90,6 +90,7 @@ class PlanarManipulator(RobotBase):
         The first frame is base_frame, the next frames are described in the constructor.
         """
         # todo HW02: implement fk
+        # test requires the function flange_pose to work properly 
         frames = []
         return frames
 
