@@ -5,7 +5,6 @@
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
 from __future__ import annotations
-from itertools import islice
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -52,13 +51,6 @@ def circle_circle_intersection(
     y4 = y2 + h * (x1 - x0) / d
 
     return [np.array([x3, y3]), np.array([x4, y4])]
-
-    # ca = Point(c0).buffer(r0, quad_segs=10000).boundary
-    # cb = Point(c1).buffer(r1, quad_segs=10000).boundary
-    # ints = ca.intersection(cb)
-    # if ints.is_empty:
-    #     return []
-    # return [g.coords[0] for g in islice(ints.geoms, 2)]
 
 
 def circle_line_intersection(c0: ArrayLike, r0: float, a1: ArrayLike, b1: ArrayLike):
