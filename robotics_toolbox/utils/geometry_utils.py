@@ -37,12 +37,29 @@ def circle_circle_intersection(
     return [g.coords[0] for g in islice(ints.geoms, 2)]
 
 
-def circle_line_intersection(c0: ArrayLike, r0: float, a1: ArrayLike, b1: ArrayLike):
-    """Compute intersection of circle (c0, ro) with line segment defined by two
-    end-points (a1, b1)"""
-    ca = Point(c0).buffer(r0, quad_segs=64).boundary
-    lb = LineString([a1, b1])
-    ints = ca.intersection(lb)
-    if ints.is_empty:
+def circle_line_intersection(
+    c: ArrayLike, r: float, a: ArrayLike, b: ArrayLike
+) -> list[np.ndarray]:
+    """Compute intersection of circle (c, r) with line defined by two points (a, b)"""
+    c = np.asarray(c)
+    a = np.asarray(a) - c
+    b = np.asarray(b) - c
+    dx = b[0] - a[0]
+    dy = b[1] - a[1]
+    dr = np.sqrt(dx**2 + dy**2)
+    d = a[0] * b[1] - b[0] * a[1]
+
+    discriminant = r**2 * dr**2 - d**2
+    if discriminant < 0:
         return []
-    return [g.coords[0] for g in ints.geoms]
+    elif np.isclose(discriminant, 0):
+        x = (d * dy + np.sign(dy) * dx * np.sqrt(discriminant)) / (dr**2)
+        y = (-d * dx + np.abs(dy) * np.sqrt(discriminant)) / (dr**2)
+        return [np.array([x, y]) + c]
+    else:
+        sols = []
+        for pm in [-1, 1]:
+            x = (d * dy + pm * np.sign(dy) * dx * np.sqrt(discriminant)) / (dr**2)
+            y = (-d * dx + pm * np.abs(dy) * np.sqrt(discriminant)) / (dr**2)
+            sols.append(np.array([x, y]) + c)
+        return sols
