@@ -43,12 +43,12 @@ class Node:
         self.distance_from_neighbours = []
 
     def add_neighbour(
-            self, neighbour: Node, path_to_neighbour: list[ArrayLike | SE2 | SE3]
+        self, neighbour: Node, path_to_neighbour: list[ArrayLike | SE2 | SE3]
     ):
         self.neighbours.append(neighbour)
 
         self.distance_from_neighbours += [0] * (
-                neighbour.id - len(self.distance_from_neighbours)
+            neighbour.id - len(self.distance_from_neighbours)
         ) + [len(path_to_neighbour)]
 
 
@@ -90,10 +90,10 @@ class PRM:
             node_count -= 1
 
     def connect(
-            self,
-            q_init: ArrayLike | SE2 | SE3,
-            q_goal: ArrayLike | SE2 | SE3,
-            max_iter: int = 1000,
+        self,
+        q_init: ArrayLike | SE2 | SE3,
+        q_goal: ArrayLike | SE2 | SE3,
+        max_iter: int = 1000,
     ) -> list[ArrayLike | SE2 | SE3] | None:
         """will find path between two given configurations"""
 
@@ -141,10 +141,10 @@ class PRM:
         return shortest_path, closest_node
 
     def plan(
-            self,
-            q_start: ArrayLike | SE2 | SE3,
-            q_goal: ArrayLike | SE2 | SE3,
-            graph_planner: GraphPlanner = GraphPlanner,
+        self,
+        q_start: ArrayLike | SE2 | SE3,
+        q_goal: ArrayLike | SE2 | SE3,
+        graph_planner: GraphPlanner = GraphPlanner,
     ) -> list[ArrayLike | SE2 | SE3]:
         """will plan path in the current graph"""
 
