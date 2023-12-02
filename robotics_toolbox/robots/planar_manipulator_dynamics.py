@@ -53,6 +53,7 @@ class PlanarManipulatorDynamics(PlanarManipulator):
         q = np.asarray(q)
         dq = np.asarray(dq)
         h = np.zeros(2)
+        # todo HW11opt: implement computation of h
         return h
 
     def forward_dynamics(
