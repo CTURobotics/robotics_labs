@@ -26,7 +26,6 @@ render.plot_manipulator(r)
 
 q = r.q
 dq = np.zeros(r.dof)
-dq[0] = 0.5
 tau = np.zeros(r.dof)
 
 dt = 0.0005
