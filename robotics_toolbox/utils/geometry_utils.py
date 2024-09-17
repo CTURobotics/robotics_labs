@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import numpy as np
 from numpy.typing import ArrayLike
-from shapely.geometry import Point
 
 
 def nullspace(A, atol=1e-13, rtol=0.0):
@@ -75,7 +74,8 @@ def circle_line_intersection(
     else:
         sols = []
         for pm in [-1, 1]:
-            x = (d * dy + pm * np.sign(dy) * dx * np.sqrt(discriminant)) / (dr**2)
+            sgn_dy = 1 if dy > 0 else -1
+            x = (d * dy + pm * sgn_dy * dx * np.sqrt(discriminant)) / (dr**2)
             y = (-d * dx + pm * np.abs(dy) * np.sqrt(discriminant)) / (dr**2)
             sols.append(np.array([x, y]) + c)
         return sols
