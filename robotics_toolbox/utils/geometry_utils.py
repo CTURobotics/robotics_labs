@@ -9,7 +9,7 @@ from itertools import islice
 
 import numpy as np
 from numpy.typing import ArrayLike
-from shapely.geometry import Point, LineString
+from shapely.geometry import Point
 
 
 def nullspace(A, atol=1e-13, rtol=0.0):
