@@ -16,7 +16,7 @@ def distance_between_configurations(
 ) -> float:
     """Compute distance between two configurations, expressed either in task-space
     SE2/SE3 or joint space np.ndarray"""
-    assert type(a) == type(b)
+    assert isinstance(a, type(b))
     if isinstance(a, SE2):
         d = a.inverse() * b
         return np.linalg.norm(np.append(d.translation, d.rotation.angle))
@@ -31,7 +31,7 @@ def interpolate(
     a: ArrayLike | SE2 | SE3, b: ArrayLike | SE2 | SE3, d: float
 ) -> np.ndarray | SE2 | SE3:
     """Interpolate between two configurations, s.t. dist(a,b) = d"""
-    assert type(a) == type(b)
+    assert isinstance(a, type(b))
     if isinstance(a, SE2):
         nrm = distance_between_configurations(a, b)
         diff = a.inverse() * b
