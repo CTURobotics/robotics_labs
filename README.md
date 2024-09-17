@@ -65,6 +65,10 @@ conda install -c conda-forge poetry pinocchio robomeshcat example-robot-data mat
 poetry install --only-root # this will install the toolbox without dependencies
 ```
 
+Other comments:
+- See [this stackoverflow discussion](https://stackoverflow.com/questions/44515769/conda-is-not-recognized-as-internal-or-external-command) to see how to fix the conda not recognized issue in Windows.
+
+
 ## BRUTE
 
 To get points for the assignments in CTU evaluation system BRUTE, zip the whole repository and upload the zip to the BRUTE system.
@@ -76,3 +80,4 @@ For example, to get points for HW01, upload the whole repository to BRUTE assign
 - [Lab03](docs/lab03.md) - differential kinematics
 - [Lab04](docs/lab04.md) - inverse kinematics
 - [Lab06](docs/lab06.md) - motion planning
+- [Lab11](docs/lab11.md) - dynamics
