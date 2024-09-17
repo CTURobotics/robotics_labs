@@ -18,9 +18,9 @@ from tests.utils import se2_to_pin_se3, sample_planar_manipulator
 class TestPlanarManipulatorDynamics(unittest.TestCase):
     def _sample_manipulator(self):
         masses = np.random.uniform(0.1, 1, size=2)
-        link_lengths = [0, np.random.uniform(0.1, 1)]
+        link_parameters = [0, np.random.uniform(0.1, 1)]
         robot = PlanarManipulatorDynamics(
-            link_lengths=link_lengths, masses=masses, structure=["P", "R"]
+            link_parameters=link_parameters, masses=masses, structure=["P", "R"]
         )
         robot.q = np.random.uniform(-np.pi, np.pi, size=robot.dof)
 
@@ -104,7 +104,7 @@ class TestPlanarManipulatorDynamics(unittest.TestCase):
         jid = 0
         pose = robot.base_pose
         for li, qi, jtype, mi in zip(
-            robot.link_lengths, robot.q, robot.structure, robot.masses
+            robot.link_parameters, robot.q, robot.structure, robot.masses
         ):
             if jtype == "R":
                 jid = model.addJoint(

@@ -17,7 +17,7 @@ from robotics_toolbox.utils import (
 )
 
 r = PlanarManipulatorDynamics(
-    link_lengths=[0, 1.0],
+    link_parameters=[0, 1.0],
     structure="PR",
     masses=[0.1, 0.5],
 )

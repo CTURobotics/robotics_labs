@@ -16,7 +16,7 @@ from robotics_toolbox.robots.robot_base import RobotBase
 class PlanarManipulator(RobotBase):
     def __init__(
         self,
-        link_lengths: ArrayLike | None = None,
+        link_parameters: ArrayLike | None = None,
         structure: list[str] | str | None = None,
         base_pose: SE2 | None = None,
         gripper_length: float = 0.2,
@@ -30,24 +30,24 @@ class PlanarManipulator(RobotBase):
          T_i = R(q_i) Tx(l_i) if joint is revolute,
          T_i = R(l_i) Tx(q_i) if joint is prismatic,
         with
-         l_i is taken from @param link_lengths;
+         l_i is taken from @param link_parameters;
          type of joint is defined by the @param structure.
 
         Args:
-            link_lengths: either the lengths of links attached to revolute joints in [m]
+            link_parameters: either the lengths of links attached to revolute joints in [m]
                 or initial rotation of prismatic joint [rad].
             structure: sequence of joint types, either R or P, [R]*n by default
             base_pose: mounting of the robot, identity by default
             gripper_length: length of the gripper measured from the flange
         """
         super().__init__()
-        self.link_lengths: np.ndarray = np.asarray(
-            [0.5] * 3 if link_lengths is None else link_lengths
+        self.link_parameters: np.ndarray = np.asarray(
+            [0.5] * 3 if link_parameters is None else link_parameters
         )
-        n = len(self.link_lengths)
+        n = len(self.link_parameters)
         self.base_pose = SE2() if base_pose is None else base_pose
         self.structure = ["R"] * n if structure is None else structure
-        assert len(self.structure) == len(self.link_lengths)
+        assert len(self.structure) == len(self.link_parameters)
         self.gripper_length = gripper_length
 
         # Robot configuration:
