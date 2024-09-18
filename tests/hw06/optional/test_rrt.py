@@ -50,7 +50,7 @@ class TestRRT(unittest.TestCase):
         total_dist_simplified = sum(
             [distance_between_configurations(p1, p2) for p1, p2 in zip(path, path[1:])]
         )
-        self.assertLessEqual(total_dist_simplified, total_dist)
+        self.assertLess(total_dist_simplified, total_dist)
 
 
 if __name__ == "__main__":
