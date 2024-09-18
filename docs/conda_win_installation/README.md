@@ -6,9 +6,9 @@
 <br>
 <img src="installer.png" width="500"/>
 
-1. Finish the installation.
+3. Finish the installation.
 
-2. Open new Command Prompt window and check that `conda` command is available:
+4. Open new Command Prompt window and check that `conda` command is available:
 <br>
 <img src="cmd.png" width="800"/>
 
