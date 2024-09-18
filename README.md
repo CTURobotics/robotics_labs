@@ -66,6 +66,7 @@ poetry install --only-root # this will install the toolbox without dependencies
 ```
 
 Other comments:
+- If you are not sure how to install `conda` on Windows, follow [this tutorial](./docs/conda_win_installation/README.md).
 - See [this stackoverflow discussion](https://stackoverflow.com/questions/44515769/conda-is-not-recognized-as-internal-or-external-command) to see how to fix the conda not recognized issue in Windows.
 
 
