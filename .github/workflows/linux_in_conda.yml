@@ -1,13 +1,12 @@
-name: static_code_analysis_and_tests
+name: linux_in_conda
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-
+  workflow_run:
+    workflows: ["lint_and_tests"]
+    types:
+      - completed
 jobs:
-  lint-and-test:
+  linux_in_conda:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -16,12 +15,13 @@ jobs:
       - uses: actions/checkout@v3
       - uses: conda-incubator/setup-miniconda@v3
         with:
-          python-version: "3.8"
+          python-version: "3.10"
       - name: Conda install
-        run: conda install -c conda-forge poetry
-      - run: poetry install
+        run: conda install -c conda-forge
+      - run: pip install .
       - run: ruff check robotics_toolbox
       - run: black --check --diff --verbose robotics_toolbox
+      - run: pytest tests/test_geometry_utils.py
 #      - run: pytest tests/
 #      - run: pytest tests/hw01/mandatory
 #      - run: pytest tests/hw02/mandatory
