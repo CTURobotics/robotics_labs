@@ -34,9 +34,10 @@ class SO2:
         return angle
 
     def inverse(self) -> SO2:
-        """Return inverse of the transformation."""
+        """Return inverse of the transformation. Do not change internal property of the
+        object."""
         # todo: HW01: implement inverse, do not use np.linalg.inverse()
-        return SO2(self.angle)
+        pass
 
     def act(self, vector: ArrayLike) -> np.ndarray:
         """Rotate given vector by this transformation."""

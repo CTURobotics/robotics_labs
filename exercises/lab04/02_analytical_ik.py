@@ -17,7 +17,7 @@ from robotics_toolbox.robots import PlanarManipulator
 from robotics_toolbox.utils import save_fig
 
 robot = PlanarManipulator(
-    link_lengths=[0.5] * 3,
+    link_parameters=[0.5] * 3,
     base_pose=SE2([-0.5, -0.75]),
     structure="RRR",
     # structure="PRR", # for optional HW

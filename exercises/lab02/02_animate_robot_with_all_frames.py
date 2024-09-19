@@ -15,7 +15,7 @@ np.random.seed(0)
 
 """Create robot and a renderer in matplotlib"""
 robot = PlanarManipulator(
-    link_lengths=[0.4] * 4,
+    link_parameters=[0.4] * 4,
     structure="PRRP",
     base_pose=SE2(translation=(0, -0.5)),
 )

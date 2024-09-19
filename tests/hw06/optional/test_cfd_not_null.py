@@ -14,9 +14,9 @@ from robotics_toolbox.robots.planar_manipulator_dynamics import (
 class TestDynamicsNotZero(unittest.TestCase):
     def test_constraint_forward_dynamics_not_zero(self):
         masses = np.random.uniform(0.1, 1, size=2)
-        link_lengths = [0, np.random.uniform(0.1, 1)]
+        link_parameters = [0, np.random.uniform(0.1, 1)]
         robot = PlanarManipulatorDynamics(
-            link_lengths=link_lengths, masses=masses, structure=["P", "R"]
+            link_parameters=link_parameters, masses=masses, structure=["P", "R"]
         )
         robot.q = np.random.uniform(-np.pi, np.pi, size=robot.dof)
         q = robot.q

@@ -48,6 +48,13 @@ class SE3:
         self.translation = other.translation
         self.rotation = other.rotation
 
+    def homogeneous(self) -> np.ndarray:
+        """Return homogeneous matrix representation of the transformation."""
+        h = np.eye(4)
+        h[:3, :3] = self.rotation.rot
+        h[:3, 3] = self.translation
+        return h
+
     def __eq__(self, other: SE3) -> bool:
         """Returns true if two transformations are almost equal."""
         return (

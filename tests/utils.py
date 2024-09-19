@@ -32,7 +32,7 @@ def planar_manipulator_to_pin(robot: PlanarManipulator) -> pin.Model:
     model: pin.Model = pin.Model()
     jid = 0
     pose = robot.base_pose
-    for li, qi, jtype in zip(robot.link_lengths, robot.q, robot.structure):
+    for li, qi, jtype in zip(robot.link_parameters, robot.q, robot.structure):
         if jtype == "R":
             jid = model.addJoint(
                 jid, pin.JointModelRZ(), se2_to_pin_se3(pose), f"j{jid}"
@@ -53,7 +53,7 @@ def sample_planar_manipulator(n: int | None = None):
     if n is None:
         n = np.random.randint(1, 5)
     return PlanarManipulator(
-        link_lengths=np.random.uniform(0.1, 0.3, size=n),
+        link_parameters=np.random.uniform(0.1, 0.3, size=n),
         base_pose=SE2(
             translation=np.random.uniform(-0.5, 0.5, size=2),
             rotation=SO2(np.random.uniform(-np.pi, np.pi)),

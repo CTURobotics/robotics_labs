@@ -17,7 +17,7 @@ from robotics_toolbox.utils import (
 )
 
 r = PlanarManipulatorDynamics(
-    link_lengths=[0, 1.0],
+    link_parameters=[0, 1.0],
     structure="PR",
     masses=[0.1, 0.5],
 )
@@ -27,21 +27,13 @@ render.plot_manipulator(r)
 q = r.q
 dq = np.zeros(r.dof)
 tau = np.zeros(r.dof)
-
-dt = 0.0005
-
-render.plot_line_between_points(
-    r.flange_pose().translation - [10, 10],
-    r.flange_pose().translation + [10, 10],
-    color="red",
-    linewidth=2,
-)
-for i in range(20000):
-    ddq = r.constrained_forward_dynamics(q, dq, tau, damping=0)
+dt = 0.005
+for i in range(1000):
+    ddq = r.forward_dynamics(q, dq, tau, damping=0.2)
     dq += ddq * dt
     q += dq * dt
     r.q = q
-    if i % 100 == 0:
+    if i % 10 == 0:
         render.plot_manipulator(r)
         save_fig()
 
