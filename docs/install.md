@@ -10,9 +10,15 @@ the most tested platform.
 ## Linux
 
 Preferred option is through conda for reproducibility.
-todo: conda installation
+```bash
+# Clone your repository and install it
+git clone <your_github_repo>
+cd <your_github_repo_name>
 
-## Virtual Environment through PDM
+conda create -n ctu_robotics python=3.10 pdm
+conda activate ctu_robotics
+pdm install # this will install the toolbox and all the dependencies
+```
 
 If you dare, you can use PDM directly without conda:
 
