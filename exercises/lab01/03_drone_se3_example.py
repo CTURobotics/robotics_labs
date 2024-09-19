@@ -4,7 +4,6 @@
 # Created on: 2023-07-7
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
-from time import sleep
 
 from robotics_toolbox.core import SE3, SO3
 from robotics_toolbox.render.renderer_spatial import RendererSpatial

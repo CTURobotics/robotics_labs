@@ -37,12 +37,12 @@ class TestImmutability(unittest.TestCase):
         for _ in range(100):
             a, b = self.sample(n=2)
             aa, bb = deepcopy(a), deepcopy(b)
-            c = a * b
+            _ = a * b
             self.assertEqual(a, aa)
             self.assertEqual(b, bb)
-            c = a.inverse()
+            _ = a.inverse()
             self.assertEqual(a, aa)
-            c = a.act(np.random.uniform(-10, 10, 2 if isinstance(a, (SO2, SE2)) else 3))
+            _ = a.act(np.random.uniform(-10, 10, 2 if isinstance(a, (SO2, SE2)) else 3))
             self.assertEqual(a, aa)
 
 

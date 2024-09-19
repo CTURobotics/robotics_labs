@@ -42,7 +42,7 @@ class PlanarManipulatorRenderer:
                     *t.translation,
                     "o" if jtype.lower() == "r" else "s",
                     ms=ms,
-                    color=color
+                    color=color,
                 )[0]
                 for t, jtype in zip(frames[:-1], self.robot.structure)
             ],

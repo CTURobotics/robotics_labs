@@ -8,6 +8,7 @@ import numpy as np
 from robotics_toolbox.planning.rrt import RRT
 from robotics_toolbox.render import RendererSpatial
 from robotics_toolbox.robots import SpatialManipulator
+
 # from robotics_toolbox.utils import (
 #     save_fig,
 #     create_gif_from_mp4,

@@ -33,7 +33,7 @@ q0 = np.zeros(robot.dof)
 
 for i in range(robot.dof):
     for _ in range(10):
-        robot.q[i] += 0.1 if robot.structure[i] == 'R' else 0.05
+        robot.q[i] += 0.1 if robot.structure[i] == "R" else 0.05
 
         # update flange pose
         for f_to, f_from in zip(frames, robot.fk_all_links()):
@@ -42,8 +42,8 @@ for i in range(robot.dof):
 
         renderer.redraw_all()
 
-        save_fig('/tmp/animation')
-create_gif_from_mp4(create_mp4_from_folder('/tmp/animation'))
+        save_fig("/tmp/animation")
+create_gif_from_mp4(create_mp4_from_folder("/tmp/animation"))
 
 
 renderer.wait_for_close()
