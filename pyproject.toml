@@ -39,6 +39,7 @@ build-backend = "pdm.backend"
 distribution = true
 
 [tool.pdm.scripts]
+pytest = "pytest"
 test = "pytest -v tests/"
 coverage = "coverage run --source src -m pytest tests/"
 post_coverage = "coverage xml"

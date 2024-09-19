@@ -20,6 +20,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - run: pdm install
       - run: pdm lint
-      - run: python -m pytest tests/test_geometry_utils.py
+      - run: pdm pytest tests/test_geometry_utils.py
 #      - run: pdm test # this will run all the tests, but it is necessary to finish
 #        # the implementation of template for it to work
