@@ -34,8 +34,8 @@ class PlanarManipulator(RobotBase):
          type of joint is defined by the @param structure.
 
         Args:
-            link_parameters: either the lengths of links attached to revolute joints in [m]
-                or initial rotation of prismatic joint [rad].
+            link_parameters: either the lengths of links attached to revolute joints
+             in [m] or initial rotation of prismatic joint [rad].
             structure: sequence of joint types, either R or P, [R]*n by default
             base_pose: mounting of the robot, identity by default
             gripper_length: length of the gripper measured from the flange
