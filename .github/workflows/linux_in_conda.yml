@@ -24,7 +24,7 @@ jobs:
         with:
           python-version: "3.10"
       - run: conda install pdm
-      - run: pdm install
+      - run: pdm install -vv
       - run: ruff check robotics_toolbox
       - run: black --check --diff --verbose robotics_toolbox
       - run: pytest tests/test_geometry_utils.py
