@@ -14,11 +14,10 @@ jobs:
       matrix:
         python-version: ["3.10", "3.11", "3.12"]
     steps:
-      - uses: actions/checkout@v3
-      - uses: pdm-project/setup-pdm@v3
+      - uses: actions/checkout@v4
+      - uses: pdm-project/setup-pdm@v4
         with:
           python-version: ${{ matrix.python-version }}
-          cache: true
       - run: pdm install
       - run: pdm lint
       - run: python -m pytest tests/test_geometry_utils.py
