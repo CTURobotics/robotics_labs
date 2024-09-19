@@ -2,7 +2,7 @@ name: linux_in_conda
 
 on:
   workflow_run:
-    workflows: ["lint_and_tests"]
+    workflows: [lint_and_tests]
     types:
       - completed
 jobs:
