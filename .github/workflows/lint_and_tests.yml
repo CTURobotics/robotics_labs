@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  lint-and-test:
+  lint-and-tests:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
