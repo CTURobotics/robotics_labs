@@ -29,8 +29,9 @@ source .venv/bin/activate
 pdm install
 ```
 
-# Windows
+# Windows, MacOS, or Linux with dependencies installed through conda
 
 ```
+conda install -c conda-forge pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
 pip install --no-deps -e .
 ```
