@@ -1,20 +1,14 @@
 name: deps_from_conda
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-#on:
-#  workflow_run:
-#    workflows:
-#      - lint_and_tests
-#    types:
-#      - completed
+  workflow_run:
+    workflows:
+      - lint_and_tests
+    types:
+      - completed
 jobs:
   deps_from_conda:
     strategy:
-      max-parallel: 1
       matrix:
         os: [ubuntu-latest, macos-13, windows-latest]
     runs-on: ${{ matrix.os }}

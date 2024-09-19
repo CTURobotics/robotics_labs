@@ -1,17 +1,11 @@
 name: linux_in_conda
 
-
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-#on:
-#  workflow_run:
-#    workflows:
-#      - lint_and_tests
-#    types:
-#      - completed
+  workflow_run:
+    workflows:
+      - lint_and_tests
+    types:
+      - completed
 jobs:
   linux_in_conda:
     runs-on: ubuntu-latest
