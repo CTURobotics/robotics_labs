@@ -1,31 +1,59 @@
-[tool.poetry]
+[project]
 name = "robotics_toolbox"
-version = "0.0.0"
+version = "0.1.0"
 description = "Robotics toolbox used to teach basic robotics at CTU."
-authors = ["Vladimir Petrik <vladimir.petrik@cvut.cz>"]
-license = "BSD-3-Clause license"
+authors = [
+    { name = "Vladimir Petrik", email = "vladimir.petrik@cvut.cz" },
+]
+requires-python = "<=3.12,>=3.10"
 readme = "README.md"
-packages = [{include = "robotics_toolbox"}]
+license = { text = "BSD-3-Clause license" }
 
-[tool.poetry.dependencies]
-python = "^3.8"
-matplotlib = "^3.7.1"
-numpy = "^1.24.0"
-robomeshcat = "^1.1.1"
-pin = "^2.6.19"
-example-robot-data = "^4.0.8"
-pycollada = "^0.7.2"
-shapely = "^2.0.1"
-anytree = "^2.9.0"
+dependencies = [
+    "numpy>=1.26.4",
+    "robomeshcat>=1.1.1",
+    "pin>=2.7.0",
+    "matplotlib>=3.9.2",
+    "example-robot-data>=4.1.0",
+    "pycollada>=0.8",
+    "shapely>=2.0.6",
+    "anytree>=2.12.1",
+]
 
-[tool.poetry.group.dev.dependencies]
-pytest = "^7.2.2"
-ruff = "^0.0.260"
-black = "^23.3.0"
+[tool.pdm.dev-dependencies]
+test = [
+    "pytest>=7.4.3",
+]
+lint = [
+    "black>=23.10.1",
+    "ruff>=0.1.3",
+]
+doc = ["sphinx"]
 
-[tool.ruff.per-file-ignores]
-"__init__.py" = ["F401"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
+
+#
+#[tool.poetry.group.dev.dependencies]
+#pytest = "^7.2.2"
+#ruff = "^0.0.260"
+#black = "^23.3.0"
+#
+#[tool.ruff.per-file-ignores]
+#"__init__.py" = ["F401"]
+#
+
+
+[tool.pdm.scripts]
+test = "pytest -v tests/"
+coverage = "coverage run --source src -m pytest tests/"
+post_coverage = "coverage xml"
+ruff = "ruff check src tests examples"
+black = "black --check --diff --verbose src tests examples"
+format = "black src tests examples"
+lint = { composite = ["ruff", "black"] }
