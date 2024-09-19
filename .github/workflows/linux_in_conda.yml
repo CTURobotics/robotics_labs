@@ -23,7 +23,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: "3.10"
-      - run: conda install 'pdm>=2.15'
+      - run: conda install -c conda-forge 'pdm>=2.15'
       - run: pdm --version
       - run: pdm install -vv
       - run: ruff check robotics_toolbox
