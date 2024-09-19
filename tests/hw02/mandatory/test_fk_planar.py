@@ -10,10 +10,13 @@ import unittest
 import numpy as np
 import pinocchio as pin
 
-from robotics_toolbox.core import SE2, SO2
+from robotics_toolbox.core import SE2
 from robotics_toolbox.robots import PlanarManipulator
-from tests.utils import planar_manipulator_to_pin, assert_se2_equals_pin_se3, \
-    sample_planar_manipulator
+from tests.utils import (
+    planar_manipulator_to_pin,
+    assert_se2_equals_pin_se3,
+    sample_planar_manipulator,
+)
 
 
 class TestFKPlanar(unittest.TestCase):
@@ -45,7 +48,11 @@ class TestFKPlanar(unittest.TestCase):
             self.assertEqual(frames[0], robot.base_pose)
 
             for fref, f, qi, jt, li in zip(
-                data.oMi[1:], frames[1:], robot.q, robot.structure, robot.link_parameters
+                data.oMi[1:],
+                frames[1:],
+                robot.q,
+                robot.structure,
+                robot.link_parameters,
             ):
                 d = SE2([-li, 0]) if jt == "R" else SE2()
                 assert_se2_equals_pin_se3(self, f * d, fref)

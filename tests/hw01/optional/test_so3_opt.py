@@ -6,7 +6,6 @@
 #
 import unittest
 import numpy as np
-import inspect
 import pinocchio as pin
 
 from robotics_toolbox.core import SO3

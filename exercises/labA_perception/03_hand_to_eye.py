@@ -41,7 +41,6 @@ T_gt, T_rc = hand_eye(T_rgs, T_cts)
 
 print(T_rc)
 print(gt_T_rc)
-print('---')
+print("---")
 print(T_gt)
 print(gt_T_gt)
-

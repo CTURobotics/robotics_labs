@@ -45,7 +45,7 @@ def planar_manipulator_to_pin(robot: PlanarManipulator) -> pin.Model:
             )
             pose = SE2()
 
-    model.addFrame(pin.Frame(f"flange", jid, 0, se2_to_pin_se3(pose), OP_FRAME))
+    model.addFrame(pin.Frame("flange", jid, 0, se2_to_pin_se3(pose), OP_FRAME))
     return model
 
 

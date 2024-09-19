@@ -12,7 +12,7 @@ from robotics_toolbox.core import SO2, SE2
 from robotics_toolbox.robots.planar_manipulator_dynamics import (
     PlanarManipulatorDynamics,
 )
-from tests.utils import se2_to_pin_se3, sample_planar_manipulator
+from tests.utils import se2_to_pin_se3
 
 
 class TestPlanarManipulatorDynamics(unittest.TestCase):
@@ -126,7 +126,7 @@ class TestPlanarManipulatorDynamics(unittest.TestCase):
                 body_inertia.inertia = np.zeros((3, 3))
                 model.appendBodyToJoint(jid, body_inertia, se2_to_pin_se3(pose))
 
-        model.addFrame(pin.Frame(f"flange", jid, 0, se2_to_pin_se3(pose), pin.OP_FRAME))
+        model.addFrame(pin.Frame("flange", jid, 0, se2_to_pin_se3(pose), pin.OP_FRAME))
         return model
 
 

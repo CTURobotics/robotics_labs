@@ -38,22 +38,11 @@ build-backend = "pdm.backend"
 [tool.pdm]
 distribution = true
 
-#
-#[tool.poetry.group.dev.dependencies]
-#pytest = "^7.2.2"
-#ruff = "^0.0.260"
-#black = "^23.3.0"
-#
-#[tool.ruff.per-file-ignores]
-#"__init__.py" = ["F401"]
-#
-
-
 [tool.pdm.scripts]
 test = "pytest -v tests/"
 coverage = "coverage run --source src -m pytest tests/"
 post_coverage = "coverage xml"
-ruff = "ruff check src tests examples"
-black = "black --check --diff --verbose src tests examples"
-format = "black src tests examples"
+ruff = "ruff check src tests exercises"
+black = "black --check --diff --verbose src tests exercises"
+format = "black src tests exercises"
 lint = { composite = ["ruff", "black"] }
