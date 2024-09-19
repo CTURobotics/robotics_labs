@@ -19,11 +19,12 @@ jobs:
       run:
         shell: bash -l {0}
     steps:
-      - uses: actions/checkout@v3
-      - uses: conda-incubator/setup-miniconda@v3
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v4
         with:
           python-version: "3.10"
       - run: conda install pdm
+      - run: pdm --version
       - run: pdm install -vv
       - run: ruff check robotics_toolbox
       - run: black --check --diff --verbose robotics_toolbox
