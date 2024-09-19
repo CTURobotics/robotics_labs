@@ -1,11 +1,17 @@
 name: linux_in_conda
 
+
 on:
-  workflow_run:
-    workflows:
-      - lint_and_tests
-    types:
-      - completed
+  push:
+    branches:
+      - main
+  pull_request:
+#on:
+#  workflow_run:
+#    workflows:
+#      - lint_and_tests
+#    types:
+#      - completed
 jobs:
   linux_in_conda:
     runs-on: ubuntu-latest
@@ -17,8 +23,6 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: "3.10"
-      - name: Conda install
-        run: conda install -c conda-forge
       - run: pip install .
       - run: ruff check robotics_toolbox
       - run: black --check --diff --verbose robotics_toolbox
