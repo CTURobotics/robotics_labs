@@ -1,4 +1,4 @@
-name: linux_in_conda
+name: deps_from_conda
 
 on:
   workflow_run:
@@ -7,8 +7,11 @@ on:
     types:
       - completed
 jobs:
-  linux_in_conda:
-    runs-on: ubuntu-latest
+  deps_from_conda:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-13, windows-latest]
+    runs-on: ${{ matrix.os }}
     defaults:
       run:
         shell: bash -l {0}
@@ -17,8 +20,8 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: "3.10"
-      - run: conda install -c conda-forge 'pdm>=2.15'
-      - run: pdm install -vv
+      - run: conda install -c conda-forge pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
+      - run: pip install --no-deps -e .
       - run: pytest tests/test_geometry_utils.py
 #      - run: pytest tests/
 #      - run: pytest tests/hw01/mandatory
