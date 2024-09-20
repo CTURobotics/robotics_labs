@@ -42,4 +42,5 @@ with renderer.animation(fps=10):
             renderer.plot_se3(frames[i], render=False)
         renderer.plot_manipulator(robot)
 
+
 renderer.wait_at_the_end()
