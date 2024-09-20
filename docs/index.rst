@@ -1,12 +1,19 @@
-Robotics Toolbox
-==============================
-
-To be done.
-
-.. automodule:: robotics_toolbox
-   :members:
+.. include:: ../README.rst
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   :hidden:
 
+   self
+
+.. toctree::
+    :maxdepth: 1
+
+    installation/install
+.. toctree::
+    :maxdepth: 2
+
+    labs/laboratories
+.. toctree::
+    :maxdepth: 1
+
+    api
