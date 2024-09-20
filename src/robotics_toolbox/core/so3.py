@@ -4,6 +4,9 @@
 # Created on: 2023-07-4
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
+
+"""Module for representing 3D rotation."""
+
 from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike

@@ -18,6 +18,8 @@ dependencies = [
     "pycollada>=0.8",
     "shapely>=2.0.6",
     "anytree>=2.12.1",
+    "scipy>=1.14.1",
+    "opencv-python>=4.10.0.84",
 ]
 
 

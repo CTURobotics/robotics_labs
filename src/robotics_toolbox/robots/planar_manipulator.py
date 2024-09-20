@@ -4,6 +4,9 @@
 # Created on: 2023-08-21
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
+
+"""Module for representing planar manipulator."""
+
 from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike
@@ -23,6 +26,7 @@ class PlanarManipulator(RobotBase):
     ) -> None:
         """
         Creates a planar manipulator composed by rotational and prismatic joints.
+
         The manipulator kinematics is defined by following kinematics chain:
          T_flange = (T_base) T(q_0) T(q_1) ... T_n(q_n),
         where

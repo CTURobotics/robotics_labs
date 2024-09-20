@@ -12,25 +12,23 @@ from robotics_toolbox.robots import PlanarManipulator
 
 class PlanarManipulatorDynamics(PlanarManipulator):
     def __init__(self, masses=None, *args, **kwargs):
-        """
-        Create planar manipulator with dynamics functionality, inherit kinematics
-        properties from PlanarManipulator. It is assumed that masses are located at the
-        end of the link.
+        """Create planar manipulator with dynamics functionality, inherit kinematics
+        properties from PlanarManipulator.
 
+        It is assumed that masses are located at the end of the link.
         The equation of motion is given by:
             tau = M(q) ddq + h(q,dq) + damping * dq,
-
             M(q) is mass matrix implemented in function mass_matrix(q)
             h(q,dq) is implemented in function h(q,dq)
 
-            forward dynamics is implemented in forward_dynamics(q, dq, tau, damping)
-            inverse dynamics is implemented in inverse_dynamics(q, dq, ddq, damping)
-            constrained forward dynamics is implemented in
-                constrained_forward_dynamics(q, dq, tau, damping); the constraint
-                enforces gripper to move only on a line that is 45deg w.r.t. x-axis
+        Forward dynamics is implemented in forward_dynamics(q, dq, tau, damping)
+        Inverse dynamics is implemented in inverse_dynamics(q, dq, ddq, damping)
+        Constrained forward dynamics is implemented in
+        constrained_forward_dynamics(q, dq, tau, damping); the constraint
+        enforces gripper to move only on a line that is 45deg w.r.t. x-axis
 
-            It is required to implement/use functions mass_matrix, and h as they can
-            be used for forward and inverse dynamics.
+        It is required to implement/use functions mass_matrix, and h as they can
+        be used for forward and inverse dynamics.
 
         Args:
             masses: masses of links, if None, all links have the same mass of 1.0 kg
