@@ -83,6 +83,10 @@ class TestSO3(unittest.TestCase):
         Pass by default."""
         with open(inspect.getfile(SO3)) as f:
             self.assertTrue("pinocchio" not in f.read())
+        with open(inspect.getfile(SO3)) as f:
+            self.assertTrue("scipy" not in f.read())
+        with open(inspect.getfile(SO3)) as f:
+            self.assertTrue("cv2" not in f.read())
 
 
 if __name__ == "__main__":

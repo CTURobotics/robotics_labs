@@ -51,6 +51,10 @@ class TestJacobian(unittest.TestCase):
         """Test that you are not using pinocchio inside your implementation."""
         with open(inspect.getfile(PlanarManipulator)) as f:
             self.assertTrue("pinocchio" not in f.read())
+        with open(inspect.getfile(PlanarManipulator)) as f:
+            self.assertTrue("cv2" not in f.read())
+        with open(inspect.getfile(PlanarManipulator)) as f:
+            self.assertTrue("scipy" not in f.read())
 
 
 if __name__ == "__main__":
