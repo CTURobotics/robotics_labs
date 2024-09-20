@@ -129,7 +129,6 @@ class TestPlanarManipulatorDynamics(unittest.TestCase):
         model.addFrame(pin.Frame("flange", jid, 0, se2_to_pin_se3(pose), pin.OP_FRAME))
         return model
 
-
     def test_imported_modules(self):
         """Test that you are not using pinocchio inside your implementation."""
         with open(inspect.getfile(PlanarManipulatorDynamics)) as f:
