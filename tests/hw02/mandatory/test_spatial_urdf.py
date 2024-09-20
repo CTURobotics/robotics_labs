@@ -23,17 +23,19 @@ class TestSpatialURDF(unittest.TestCase):
     def test_poses_of_links_frames(self):
         """test whether the poses of links are similar to the reference ones"""
         # making pinocchio model for testing
-        path = Path.joinpath(Path(__file__).parents[3], "exercises/lab02_forward_kinematics/robot_hw.urdf")
+        path = Path.joinpath(Path(__file__).parents[3],
+                             "exercises/lab02_forward_kinematics/robot_hw.urdf")
         student_mod, _, _ = pin.buildModelsFromUrdf(str(path))
         student_data = student_mod.createData()
 
         # load model which will be used to check the solution
-        path = Path.joinpath(Path(__file__).parents[0],"pin_mod_pin_data.pickle" )
+        path = Path.joinpath(Path(__file__).parents[0], "pin_mod_pin_data.pickle")
         with open(path, "rb") as file:
             data = pickle.load(file)
         pin_mod = data['mod']
         pin_data = data['data']
 
+        # check 10 rand configurations with corespondence model
         for i in range(10):
             c = np.random.random(4) * np.pi - np.random.random(4) * np.pi
             pin.forwardKinematics(student_mod, student_data, c)
