@@ -1,0 +1,15 @@
+<robot name="simple_robot">
+
+    <link name="base_link">
+    </link>
+
+    <joint name="joint0" type="fixed">
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <parent link="base_link"/>
+        <child link="end_effector"/>
+    </joint>
+
+    <link name="end_effector">
+    </link>
+
+</robot>
