@@ -5,6 +5,8 @@
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
 
+"""Module for representing 2D transformation."""
+
 from __future__ import annotations
 
 import copy

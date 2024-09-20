@@ -4,6 +4,9 @@
 # Created on: 2023-11-04
 #     Author: David Kovar <kovarda8@fel.cvut.cz>
 #
+
+"""Module for path planning using Probabilistic Roadmap Method (PRM)."""
+
 from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike

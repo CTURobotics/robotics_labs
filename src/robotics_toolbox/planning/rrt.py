@@ -4,6 +4,9 @@
 # Created on: 2023-09-21
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
+
+"""Module for RRT motion planning algorithm."""
+
 from __future__ import annotations
 import numpy as np
 from numpy.typing import ArrayLike

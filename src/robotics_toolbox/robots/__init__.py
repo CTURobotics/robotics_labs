@@ -1,3 +1,6 @@
+"""This module contains the robot classes for mobile robots, manipulators, and
+drones."""
+
 from .drone import Drone
 from .mobile_robot import MobileRobot
 from .planar_manipulator import PlanarManipulator
