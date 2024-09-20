@@ -4,7 +4,6 @@
 # Created on: 2023-09-22
 #     Author: David Kovar <kovarda8@fel.cvut.cz>
 #
-import copy
 import unittest
 from pathlib import Path
 
