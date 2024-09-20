@@ -65,6 +65,7 @@ Mandatory HW:
    - create an URDF and store it in `exercises/lab02/` folder
 
 If following tests will pass, your implementation is correct:
+
 .. code-block:: bash
 
     pytest tests/hw02/mandatory
