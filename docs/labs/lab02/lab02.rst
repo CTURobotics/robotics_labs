@@ -24,17 +24,23 @@ The visualization of the frames created by `exercises/lab02_forward_kinematics/a
 URDF
 ====
 
-Your goal is to create an URDF file `exercises/lab02_forward_kinematics/robot_hw.urdf` with a description of spatial robot with 3 DoF.
+Your goal is to create robot description in an URDF file `exercises/lab02_forward_kinematics/robot_hw.urdf` with a description of spatial robot with 4 DoF.
 The robot is made of the following links and joints:
 
-- a cuboid base,
-- prismatic joint in Y axis direction between the cuboid base and the following link,
-- fictional link without geometry for connecting two joints
-- revolute joint around Z axis between the prismatic joint and the following link,
-- cylinder link placed atop the cuboid base,
-- sphere link placed atop the cylinder link (connected to previous link by fixed joint),
-- revolute joint around X axis between the sphere link and the following link,
-- cylinder link connected to the sphere via aforementioned joint.
+- a cube base,
+- revolute joint around Z axis between the cube base and the first cylinder link,
+- first cylinder link placed atop the cuboid base,
+- first sphere link placed atop the first cylinder link (connected to previous link by fixed joint),
+- revolute joint around X axis between the first sphere link and the following second cylinder link,
+- second cylinder link connected to the first sphere via aforementioned joint,
+- revolute joint around Z axis between the second cylinder link and the following third cylinder link,
+- third cylinder link placed atop the second cylinder link,
+- second sphere link placed atop the third cylinder link (connected to previous link by fixed joint),
+- revolute joint around X axis between the second sphere link and the following fourth cylinder link,
+- fourth cylinder link connected to the second sphere via aforementioned joint,
+- fictional end effector link without geometry placed at the top of the fourth cylinder (connected to the cylinder by fixed joint),
+
+
 
 See the drawings bellow for the dimensions and animation of the expected structure.
 
