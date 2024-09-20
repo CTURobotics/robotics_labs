@@ -1,4 +1,6 @@
-# Lab11 - Robot Dynamics
+======================
+Lab07: Robot Dynamics
+======================
 
 The goal of this lab is to implement forward dynamics, inverse dynamics, and constrained forward dynamics for a robot manipulator with kinematics structure PR with first link aligned with x-axis (i.e. alpha1 = 0).
 You will implement required functionality in `robotics_toolbox/robots/planar_manipulator_dynamics.py` file.
@@ -7,15 +9,20 @@ The constraints for the constrained dynamics are specified by matrix `A` and `dA
 Prefix `d` denotes the time derivative of the variable.
 The constraint enforce griper to lie on the line that pass through end-effector initial configuration and which angle w.r.t. x-axis is 45 degrees.
 
-If your implementation is correct, you will see dynamical motion of the robot with scripts in `exercises/lab11` folder.
+If your implementation is correct, you will see dynamical motion of the robot with scripts in `exercises/lab07_dynamics` folder.
 You should see animations like this:
 
-![](lab11_fd.gif)
+.. image:: fd.gif
+    :width: 800px
+    :align: center
 
-![](lab11_cfd.gif)
+.. image:: cfd.gif
+    :width: 800px
+    :align: center
 
 
-## Tests
+Tests
+=====
 
 Optional HW:
 
@@ -29,5 +36,5 @@ Optional HW:
 If following tests will pass, your implementation is correct:
 
 ```bash
-pytest tests/hw11/optional
+pytest tests/hw07/optional
 ```
