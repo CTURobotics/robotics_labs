@@ -4,7 +4,7 @@
 # Created on: 2023-09-22
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
-
+import inspect
 import unittest
 import numpy as np
 from shapely import MultiPolygon, Point
@@ -51,6 +51,15 @@ class TestRRT(unittest.TestCase):
             [distance_between_configurations(p1, p2) for p1, p2 in zip(path, path[1:])]
         )
         self.assertLess(total_dist_simplified, total_dist)
+
+    def test_imported_modules(self):
+        """Test that you are not using pinocchio inside your implementation."""
+        with open(inspect.getfile(RRT)) as f:
+            self.assertTrue("pinocchio" not in f.read())
+        with open(inspect.getfile(RRT)) as f:
+            self.assertTrue("cv2" not in f.read())
+        with open(inspect.getfile(RRT)) as f:
+            self.assertTrue("scipy" not in f.read())
 
 
 if __name__ == "__main__":

@@ -4,7 +4,7 @@
 # Created on: 2023-12-2
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
-
+import inspect
 import unittest
 import numpy as np
 import pinocchio as pin
@@ -128,6 +128,15 @@ class TestPlanarManipulatorDynamics(unittest.TestCase):
 
         model.addFrame(pin.Frame("flange", jid, 0, se2_to_pin_se3(pose), pin.OP_FRAME))
         return model
+
+    def test_imported_modules(self):
+        """Test that you are not using pinocchio inside your implementation."""
+        with open(inspect.getfile(PlanarManipulatorDynamics)) as f:
+            self.assertTrue("pinocchio" not in f.read())
+        with open(inspect.getfile(PlanarManipulatorDynamics)) as f:
+            self.assertTrue("cv2" not in f.read())
+        with open(inspect.getfile(PlanarManipulatorDynamics)) as f:
+            self.assertTrue("scipy" not in f.read())
 
 
 if __name__ == "__main__":

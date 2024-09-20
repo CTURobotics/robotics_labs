@@ -66,6 +66,10 @@ class TestSE2(unittest.TestCase):
         default."""
         with open(inspect.getfile(SE2)) as f:
             self.assertTrue("pinocchio" not in f.read())
+        with open(inspect.getfile(SE2)) as f:
+            self.assertTrue("scipy" not in f.read())
+        with open(inspect.getfile(SE2)) as f:
+            self.assertTrue("cv2" not in f.read())
 
     def test_only_rotation_and_translation_variables(self):
         """Test that SE2 has only rotation and translation variables. Passing by
