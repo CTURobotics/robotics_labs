@@ -23,8 +23,8 @@ class TestSpatialURDF(unittest.TestCase):
         """test whether the poses of links are similar to the reference ones"""
         # making pinocchio model for testing
         path = Path.joinpath(
-            Path(__file__).parents[3],
-            "src/robotics_toolbox/robots/robot_hw.urdf")
+            Path(__file__).parents[3], "src/robotics_toolbox/robots/robot_hw.urdf"
+        )
         student_mod, _, _ = pin.buildModelsFromUrdf(str(path))
         student_data = student_mod.createData()
 
