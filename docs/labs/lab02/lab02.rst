@@ -24,7 +24,7 @@ The visualization of the frames created by `exercises/lab02_forward_kinematics/a
 URDF
 ====
 
-Your goal is to create robot description in an URDF file `exercises/lab02_forward_kinematics/robot_hw.urdf` with a description of spatial robot with 4 DoF.
+Your goal is to create robot description in an URDF file `src/robotics_toolbox/robots/robot_hw.urdf` with a description of spatial robot with 4 DoF.
 The robot is made of the following links and joints:
 
 - a cube base,
@@ -67,7 +67,7 @@ Tests
 Mandatory HW:
  - `robotics_toolbox/robots/planar_manipualator.py`
    - implement `fk_all_links` and `flange_pose` functions
- - `exercises/lab02/robot_hw.urdf`
+ - `src/robotics_toolbox/robots/robot_hw.urdf`
    - create an URDF and store it in `exercises/lab02/` folder
 
 If following tests will pass, your implementation is correct:
