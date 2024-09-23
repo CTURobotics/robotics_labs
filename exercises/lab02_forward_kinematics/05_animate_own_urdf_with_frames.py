@@ -16,7 +16,7 @@ from robotics_toolbox.render import RendererSpatial
 np.random.seed(0)
 
 renderer = RendererSpatial()
-robot = SpatialManipulator(urdf_path=Path(__file__).parent.joinpath("robot_hw.urdf"))
+robot = SpatialManipulator(urdf_path=Path(__file__).parent.joinpath("robot.urdf"))
 
 renderer.plot_manipulator(robot)
 
@@ -41,6 +41,5 @@ with renderer.animation(fps=10):
             frames[i].set_from(SE3(f[:3, 3], SO3(f[:3, :3])))
             renderer.plot_se3(frames[i], render=False)
         renderer.plot_manipulator(robot)
-
 
 renderer.wait_at_the_end()
