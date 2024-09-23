@@ -24,8 +24,7 @@ class TestSpatialURDF(unittest.TestCase):
         # making pinocchio model for testing
         path = Path.joinpath(
             Path(__file__).parents[3],
-            "exercises/lab02_forward_kinematics/robot_hw.urdf",
-        )
+            "src/robotics_toolbox/robots/robot_hw.urdf")
         student_mod, _, _ = pin.buildModelsFromUrdf(str(path))
         student_data = student_mod.createData()
 
