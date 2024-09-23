@@ -23,7 +23,7 @@ You are allowed to use only the following software packages to implement missing
 ```python standard library, numpy, robomeshcat (only for visualization), anytree```
 
 
-**BRUTE** To get points for the assignments in CTU evaluation system BRUTE, zip the whole repository and upload the zip to the BRUTE system.
+**BRUTE** To get points for the assignments in CTU evaluation system BRUTE, zip the src folder and upload the zip to the BRUTE system.
 For example, to get points for HW01, upload the whole repository to BRUTE assignments hw01 before the deadline that you see in the system.
 
 For more documentation see docs folder or generated documentation at https://robotics-labs.readthedocs.io/en/latest/ .
