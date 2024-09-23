@@ -40,6 +40,8 @@ The robot is made of the following links and joints:
 - fourth cylinder link connected to the second sphere via aforementioned joint,
 - fictional end effector link without geometry placed at the top of the fourth cylinder (connected to the cylinder by fixed joint),
 
+All joints have the same limits: -pi/2 to pi/2.
+
 
 
 See the drawings bellow for the dimensions and animation of the expected structure.
