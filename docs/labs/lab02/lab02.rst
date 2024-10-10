@@ -45,6 +45,8 @@ All joints have the same limits: -pi/2 to pi/2.
 
 
 See the drawings bellow for the dimensions and animation of the expected structure.
+The gray lines indicate the position of ground.
+Note, that first link center is placed on the ground so that half of its geometry is below the ground level.
 
 .. image:: lab02_spatial.gif
     :width: 800px
