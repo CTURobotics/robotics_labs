@@ -56,7 +56,7 @@ class TestSpatialURDF(unittest.TestCase):
         )
         configs = data["configs"]
         poses = data["poses"]
-        for c, ref_pose in zip(configs, poses):
+        for i, (c, ref_pose) in enumerate(zip(configs, poses)):
             pin.forwardKinematics(student_mod, student_data, c)
             pin.updateFramePlacements(student_mod, student_data)
             self.assertTrue(
