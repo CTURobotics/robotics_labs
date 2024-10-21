@@ -13,7 +13,7 @@ pdf = FPDF()
 w = 210
 h = 297
 ms = 50
-aruco_size = 40
+aruco_size = 30
 
 nw = w // ms
 nh = h // ms
@@ -34,7 +34,7 @@ def get_center(i, j):
     return margin_w + i * ms + ms / 2, margin_h + j * ms + ms / 2
 
 
-aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_6X6_50)
+aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
 for i in range(50):
     img = aruco_dict.generateImageMarker(i, sidePixels=100)
     cv2.imwrite(f"/tmp/aruco_{i}.png", img)
