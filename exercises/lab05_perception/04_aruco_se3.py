@@ -11,8 +11,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 from perception_utils import max_resize
 
+
 def estimatePoseSingleMarkers(corners, marker_size, mtx, distortion):
-    '''
+    """
     Source: https://stackoverflow.com/a/76802895
     This will estimate the rvec and tvec for each of the marker corners detected by:
        corners, ids, rejectedImgPoints = detector.detectMarkers(image)
@@ -21,16 +22,23 @@ def estimatePoseSingleMarkers(corners, marker_size, mtx, distortion):
     mtx - is the camera matrix
     distortion - is the camera distortion matrix
     RETURN list of rvecs, tvecs, and trash (so that it corresponds to the old estimatePoseSingleMarkers())
-    '''
-    marker_points = np.array([[-marker_size / 2, marker_size / 2, 0],
-                              [marker_size / 2, marker_size / 2, 0],
-                              [marker_size / 2, -marker_size / 2, 0],
-                              [-marker_size / 2, -marker_size / 2, 0]], dtype=np.float32)
+    """
+    marker_points = np.array(
+        [
+            [-marker_size / 2, marker_size / 2, 0],
+            [marker_size / 2, marker_size / 2, 0],
+            [marker_size / 2, -marker_size / 2, 0],
+            [-marker_size / 2, -marker_size / 2, 0],
+        ],
+        dtype=np.float32,
+    )
     trash = []
     rvecs = []
     tvecs = []
     for c in corners:
-        nada, R, t = cv2.solvePnP(marker_points, c, mtx, distortion, False, cv2.SOLVEPNP_IPPE_SQUARE)
+        nada, R, t = cv2.solvePnP(
+            marker_points, c, mtx, distortion, False, cv2.SOLVEPNP_IPPE_SQUARE
+        )
         rvecs.append(R)
         tvecs.append(t)
         trash.append(nada)
@@ -43,7 +51,7 @@ def main():
     K = calibration["K"]
     distortion = calibration["dist"]
     img_max_width = calibration["max_width"]
-    
+
     # Load image and preprocess
     frame = cv2.imread(str(Path(__file__).parent / "aruco.jpg"))
     frame = max_resize(frame, max_width=img_max_width)
@@ -53,10 +61,10 @@ def main():
     aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
     detector = cv2.aruco.ArucoDetector(aruco_dict)
     corners, ids, rejected = detector.detectMarkers(gray)
-    
+
     # Draw markers
     cv2.aruco.drawDetectedMarkers(frame, corners, ids)
-    plt.imshow(frame[:,:,::-1])
+    plt.imshow(frame[:, :, ::-1])
     plt.title("Detected markers")
     plt.show()
 
@@ -66,7 +74,7 @@ def main():
         cv2.drawFrameAxes(frame, K, distortion, rvec, tvec, 0.04)
         print(f"R = {rvec.T[0]}   |   t = {tvec.T[0]}")
 
-    plt.imshow(frame[:,:,::-1])
+    plt.imshow(frame[:, :, ::-1])
     plt.title("Markers with frames")
     plt.show()
 

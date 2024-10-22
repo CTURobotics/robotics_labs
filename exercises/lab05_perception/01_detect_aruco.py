@@ -6,7 +6,6 @@
 #
 from pathlib import Path
 import cv2
-import numpy as np
 from perception_utils import max_resize
 from matplotlib import pyplot as plt
 
@@ -23,16 +22,17 @@ def main():
     corners, ids, rejected = detector.detectMarkers(gray)
     img_corners = img.copy()
     cv2.aruco.drawDetectedMarkers(img_corners, corners, ids)
-    plt.imshow(img_corners[:,:,::-1])
+    plt.imshow(img_corners[:, :, ::-1])
     plt.title("Detected markers")
     plt.show()
 
     # Draw rejected detections
     img_rejected = img.copy()
     cv2.aruco.drawDetectedMarkers(img_rejected, rejected, borderColor=(0, 0, 255))
-    plt.imshow(img_rejected[:,:,::-1])
+    plt.imshow(img_rejected[:, :, ::-1])
     plt.title("Rejected detections")
     plt.show()
+
 
 if __name__ == "__main__":
     main()
