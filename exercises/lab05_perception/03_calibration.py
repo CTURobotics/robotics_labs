@@ -13,7 +13,7 @@ from perception_utils import max_resize
 from matplotlib import pylab as plt
 
 
-def calibrate(dir, grid, square_size, img_max_width=1024, viz=False):
+def calibrate(dir, grid, square_size, img_max_width=1024, viz=True):
     extensions = (".jpg", ".jpeg", ".png")
     images = Path(dir).iterdir()
     images = sorted([x for x in images if str(x).lower().endswith(extensions)])[:7]
@@ -98,10 +98,10 @@ def calibrate(dir, grid, square_size, img_max_width=1024, viz=False):
 
 if __name__ == "__main__":
     parser = ArgumentParser()
-    parser.add_argument("-d", default="chessboard", type=str, help="Dir with images")
-    parser.add_argument("-w", type=int, default=1024, help="Max image width")
-    parser.add_argument("-g", type=str, default="6x9", help="Grid size")
-    parser.add_argument("-s", type=float, default=30.0, help="Square size")
+    parser.add_argument("--dir", default="chessboard", type=str, help="Dir with images")
+    parser.add_argument("-width", type=int, default=1024, help="Max image width")
+    parser.add_argument("-grid", type=str, default="6x9", help="Grid size")
+    parser.add_argument("-square-size", type=float, default=30.0, help="Square size")
 
     args = parser.parse_args()
 
@@ -109,6 +109,4 @@ if __name__ == "__main__":
     grid = tuple(map(int, args.grid.split("x")))
     assert len(grid) == 2, "Invalid grid size"
 
-    calibrate(
-        args.dir, grid, args.square_size, img_max_width=args.width, viz=not args.no_show
-    )
+    calibrate(args.dir, grid, args.square_size, img_max_width=args.width)
