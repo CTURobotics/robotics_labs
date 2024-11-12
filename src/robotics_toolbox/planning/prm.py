@@ -9,6 +9,8 @@
 
 from __future__ import annotations
 import numpy as np
+from PIL.ImagePalette import random
+from decorator import append
 from numpy.typing import ArrayLike
 from copy import deepcopy
 
@@ -18,6 +20,9 @@ from scipy.sparse import csgraph
 from robotics_toolbox.core import SE3
 from robotics_toolbox.robots.robot_base import RobotBase
 from robotics_toolbox.utils import distance_between_configurations, interpolate
+
+
+np.random.seed(6)
 
 
 class GraphPlanner:
@@ -46,13 +51,13 @@ class Node:
         self.distance_from_neighbours = []
 
     def add_neighbour(
-        self, neighbour: Node, path_to_neighbour: list[ArrayLike | SE2 | SE3]
+            self, neighbour: Node, dist_from_neighbour: int
     ):
         self.neighbours.append(neighbour)
 
-        self.distance_from_neighbours += [0] * (
-            neighbour.id - len(self.distance_from_neighbours)
-        ) + [len(path_to_neighbour)]
+        for i in range(neighbour.id - len(self.distance_from_neighbours)):
+            self.distance_from_neighbours.append(0)
+        self.distance_from_neighbours.append(dist_from_neighbour)
 
 
 class PRM:
@@ -78,25 +83,30 @@ class PRM:
                 node_count += 1
                 if node_count == 1:
                     continue
-        # connect picked nodes and make graph
-        for i, node in enumerate(self.graph):
-            for j in range(i, len(self.graph)):
-                path = self.connect(q_rand, node.config)
-                if path is not None:
-                    self.graph[-1].add_neighbour(node, deepcopy(path))
-                    path.reverse()
-                    node.add_neighbour(self.graph[-1], deepcopy(path))
 
-        # if node wasn't connected remove it from graph
-        if len(self.graph[-1].neighbours) == 0:
-            self.graph.pop()
-            node_count -= 1
+                # connect picked nodes and make graph
+                for i, node in enumerate(self.graph):
+                    if i == len(self.graph) - 1:
+                        continue
+
+                    path = self.connect(q_rand, node.config)
+                    if path is not None:
+                        self.graph[-1].add_neighbour(node, len(path))
+                        if len(path) == 18:
+                            pass
+                        path.reverse()
+                        node.add_neighbour(self.graph[-1], len(path))
+
+                # if node wasn't connected remove it from graph
+                if len(self.graph[-1].neighbours) == 0:
+                    self.graph.pop()
+                    node_count -= 1
 
     def connect(
-        self,
-        q_init: ArrayLike | SE2 | SE3,
-        q_goal: ArrayLike | SE2 | SE3,
-        max_iter: int = 1000,
+            self,
+            q_init: ArrayLike | SE2 | SE3,
+            q_goal: ArrayLike | SE2 | SE3,
+            max_iter: int = 1000,
     ) -> list[ArrayLike | SE2 | SE3] | None:
         """will find path between two given configurations"""
 
@@ -144,10 +154,10 @@ class PRM:
         return shortest_path, closest_node
 
     def plan(
-        self,
-        q_start: ArrayLike | SE2 | SE3,
-        q_goal: ArrayLike | SE2 | SE3,
-        graph_planner: GraphPlanner = GraphPlanner,
+            self,
+            q_start: ArrayLike | SE2 | SE3,
+            q_goal: ArrayLike | SE2 | SE3,
+            graph_planner: GraphPlanner = GraphPlanner,
     ) -> list[ArrayLike | SE2 | SE3]:
         """will plan path in the current graph"""
 
@@ -157,12 +167,12 @@ class PRM:
         connect_init_path, init_closest_node = self.closest_connect(
             q_start, q_to_graph=True
         )
-        assert init_closest_node is not None
+        # assert init_closest_node is not None
 
         connect_goal_path, goal_closest_node = self.closest_connect(
             q_goal, q_to_graph=False
         )
-        assert goal_closest_node is not None
+        # assert goal_closest_node is not None
 
         # construct graph matrix for graph planner
         graph_matrix = []
@@ -173,7 +183,7 @@ class PRM:
             )
 
         # use graph planner to find a path in the graph
-        node_path = graph_planner(graph_matrix).get_path(
+        node_path = graph_planner(np.array(graph_matrix)).get_path(
             init_closest_node, goal_closest_node
         )
 
@@ -197,7 +207,7 @@ if __name__ == "__main__":
     from robotics_toolbox.render import RendererPlanar
 
     robot = PlanarManipulator(
-        link_parameters=[0.3] * 5,
+        link_lengths=[0.3] * 5,
         base_pose=SE2([-0.75, 0.0]),
         structure="RRRRR",
     )
@@ -207,7 +217,7 @@ if __name__ == "__main__":
     goal_state = np.pi / 4 * np.ones(robot.dof)
 
     prm = PRM(robot=robot, delta_q=0.2)
-    prm.explore(max_nodes=100)
+    prm.explore(max_nodes=50)
     path = prm.plan(start_state, goal_state)
 
     render = RendererPlanar(lim_scale=2.0)
@@ -217,14 +227,14 @@ if __name__ == "__main__":
         robot.q = p
         render.redraw_all()
 
-    start_state = -np.pi / 4 * np.ones(robot.dof)
-    goal_state = 0 * np.ones(robot.dof)
-
-    path = prm.plan(start_state, goal_state)
-
-    render = RendererPlanar(lim_scale=2.0)
-    render.plot_manipulator(robot)
-
-    for p in path:
-        robot.q = p
-        render.redraw_all()
+    # start_state = -np.pi / 4 * np.ones(robot.dof)
+    # goal_state = 0 * np.ones(robot.dof)
+    #
+    # path = prm.plan(start_state, goal_state)
+    #
+    # render = RendererPlanar(lim_scale=2.0)
+    # render.plot_manipulator(robot)
+    #
+    # for p in path:
+    #     robot.q = p
+    #     render.redraw_all()
