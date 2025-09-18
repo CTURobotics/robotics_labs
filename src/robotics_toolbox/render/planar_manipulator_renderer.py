@@ -22,7 +22,8 @@ class PlanarManipulatorRenderer:
         frames = self.robot.fk_all_links()
         gripper = self.robot._gripper_lines(frames[-1])
         for p, t in zip(self.plt_objects["joints"], frames[:-1]):
-            p.set_data(*t.translation)
+            x, y = t.translation
+            p.set_data([x], [y])
         for p, t, tn in zip(self.plt_objects["links"], frames[:-1], frames[1:]):
             p.set_data(
                 [t.translation[0], tn.translation[0]],
