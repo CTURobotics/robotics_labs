@@ -10,6 +10,7 @@ import pickle
 import inspect
 import numpy as np
 import pinocchio as pin
+from sys import platform
 from robotics_toolbox.robots import PlanarManipulator
 
 
@@ -28,26 +29,40 @@ class TestSpatialURDF(unittest.TestCase):
         student_mod, _, _ = pin.buildModelsFromUrdf(str(path))
         student_data = student_mod.createData()
 
-        # load model which will be used to check the solution
-        path = Path(__file__).parent / "pin_mod_pin_data.pickle"
-        with open(path, "rb") as file:
-            data = pickle.load(file)
-        pin_mod = data["mod"]
-        pin_data = data["data"]
+        if platform == "linux" or platform == "linux2":
+            path = Path(__file__).parent / "pin_mod_pin_data.pickle"
+            with open(path, "rb") as file:
+                data = pickle.load(file)
+            pin_mod = data["mod"]
+            pin_data = data["data"]
 
-        # check 100 rand configurations with corespondence model
-        for i in range(100):
-            c = pin.randomConfiguration(pin_mod)
+            # check 100 rand configurations with corespondence model
+            for i in range(100):
+                c = pin.randomConfiguration(pin_mod)
+                pin.forwardKinematics(student_mod, student_data, c)
+                pin.updateFramePlacements(student_mod, student_data)
+
+                pin.forwardKinematics(pin_mod, pin_data, c)
+                pin.updateFramePlacements(pin_mod, pin_data)
+
+                self.assertTrue(
+                    check_if_identity(pin_data.oMf[-1], student_data.oMf[-1]),
+                    msg=f"Configuration {i} failed. \n frame {i} should be \n "
+                    f"{pin_data.oMf[-1].homogeneous} \n but is \n "
+                    f"{student_data.oMf[-1].homogeneous}",
+                )
+        data = pickle.load(
+            open(Path(__file__).parent / "pin_mod_student_data.pickle", "rb")
+        )
+        configs = data["configs"]
+        poses = data["poses"]
+        for i, (c, ref_pose) in enumerate(zip(configs, poses)):
             pin.forwardKinematics(student_mod, student_data, c)
             pin.updateFramePlacements(student_mod, student_data)
-
-            pin.forwardKinematics(pin_mod, pin_data, c)
-            pin.updateFramePlacements(pin_mod, pin_data)
             self.assertTrue(
-                check_if_identity(pin_data.oMf[-1], student_data.oMf[-1]),
-                msg=f"Configuration {i} failed. \n frame {i} should be \n "
-                f"{pin_data.oMf[-1].homogeneous} \n but is \n "
-                f"{student_data.oMf[-1].homogeneous}",
+                check_if_identity(pin.SE3(ref_pose), student_data.oMf[-1]),
+                msg=f"Configuration {c} failed. \n frame {i} should be \n "
+                f"{ref_pose} \n but is \n {student_data.oMf[-1].homogeneous}",
             )
 
 
