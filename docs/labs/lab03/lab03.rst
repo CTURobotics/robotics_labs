@@ -1,5 +1,5 @@
 =================
-Lab05: Perception
+Lab03: Perception
 =================
 
 In this lab we will show you how to use OpenCV for various vision tasks.
