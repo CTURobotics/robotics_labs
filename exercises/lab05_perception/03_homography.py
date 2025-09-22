@@ -1,6 +1,5 @@
 import numpy as np
 import json
-import matplotlib
 from matplotlib import pyplot as plt
 from pathlib import Path
 import cv2
