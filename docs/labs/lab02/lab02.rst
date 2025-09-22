@@ -14,7 +14,7 @@ The links frames are defined as follows:
 - for links attached to parent by revolute joints, the frame origin is at the end of the link with x-axis pointing in the direction of the link,
 - for links attached to parent by prismatic joints, the x-axis points in the direction of motion and the origin is located at the end of the link.
 
-The visualization of the frames created by `exercises/lab02_forward_kinematics/animate_robot_with_all_frames.py`:
+The visualization of the frames created by `exercises/lab02/animate_robot_with_all_frames.py`:
 
 .. image:: lab02_fk_animation.gif
     :width: 800px
@@ -72,7 +72,6 @@ Mandatory HW:
  - `robotics_toolbox/robots/planar_manipualator.py`
    - implement `fk_all_links` and `flange_pose` functions
  - `src/robotics_toolbox/robots/robot_hw.urdf`
-   - create an URDF and store it in `exercises/lab02/` folder
 
 If following tests will pass, your implementation is correct:
 

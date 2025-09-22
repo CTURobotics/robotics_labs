@@ -120,12 +120,12 @@ class PlanarManipulator(RobotBase):
         """Computes jacobian of the manipulator for the given structure and
         configuration."""
         jac = np.zeros((3, len(self.q)))
-        # todo: HW03 implement jacobian computation
+        # todo: HW04 implement jacobian computation
         return jac
 
     def jacobian_finite_difference(self, delta=1e-5) -> np.ndarray:
         jac = np.zeros((3, len(self.q)))
-        # todo: HW03 implement jacobian computation
+        # todo: HW04 implement jacobian computation
         return jac
 
     def ik_numerical(
@@ -136,7 +136,7 @@ class PlanarManipulator(RobotBase):
     ) -> bool:
         """Compute IK numerically. Value self.q is used as an initial guess and updated
         to solution of IK. Returns True if converged, False otherwise."""
-        # todo: HW04 implement numerical IK
+        # todo: HW05 implement numerical IK
 
         return False
 
@@ -148,8 +148,8 @@ class PlanarManipulator(RobotBase):
             "PRR",
         ), "Only RRR or PRR structure is supported"
 
-        # todo: HW04 implement analytical IK for RRR manipulator
-        # todo: HW04 optional implement analytical IK for PRR manipulator
+        # todo: HW05 implement analytical IK for RRR manipulator
+        # todo: HW05 optional implement analytical IK for PRR manipulator
         if self.structure == "RRR":
             pass
         return []
