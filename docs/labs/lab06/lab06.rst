@@ -4,7 +4,7 @@ Lab06: Motion planning
 
 The goal is to implement RRT algorithm for path planning and random shortcut algorithm for path simplification.
 It is important to implement bias toward goal in sampling algorithm for algorithm to find path in limited time given by our tests. 
-If planner works, you can visualize paths for various motion planning problems with scripts in `exercises/lab06_planning` folder, e.g.:
+If planner works, you can visualize paths for various motion planning problems with scripts in `exercises/lab06` folder, e.g.:
 
 .. image:: lab06_mobile_robot.gif
     :width: 800px

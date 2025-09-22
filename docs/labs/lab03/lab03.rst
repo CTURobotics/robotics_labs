@@ -1,39 +1,21 @@
-================================
-Lab03: Differentiable kinematics
-================================
+=================
+Lab05: Perception
+=================
 
-The goal of this laboratory is to implement computation of Jacobian for planar manipulator and to generate null-space motion of the robot, i.e. motion where gripper remains stable while body is moving.
-Once you implement the Jacobian computation, you can generate following animations by using the scripts in the `excersies/lab03_differentiable_kinematics` folder:
-
-Planar RRRR
-===========
-
-.. image:: lab03_jac_animation_RRRR.gif
-    :width: 800px
-    :align: center
-
-Planar PPPR
-===========
-
-.. image:: lab03_jac_animation_PPPR.gif
-    :width: 800px
-    :align: center
-
-Spatial Panda
-=============
-
-.. image:: lab03_jac_panda.gif
-    :width: 800px
-    :align: center
+In this lab we will show you how to use OpenCV for various vision tasks.
 
 Tests
 =====
 
 Mandatory HW:
-
-- `robotics_toolbox/robots/planar_manipualator.py`
-    - implement numerical computation of the in the `jacobian_finite_difference` functions
-    - implement analytical computation of in the `jacobian` function; you are not allowed to compute it by numerical difference!
+ - `src/robotics_toolbox/utils/perception.py`
+     - implement the `find_hoop_homography` function:
+       Given `N` images as NumPy arrays and `N` SE(3) poses of the hoop on a plane `P`,
+       find a homography that transforms points **from the image plane to the plane P**.
+       First, detect the hoop in the images (you can use e.g. thresholding, followed by
+       circle detection using Hough transform, or extract contours and measure their "roundness").
+       Second, use the detected hoop/circle centers and provided poses to compute the homography
+       `H` using `cv2.findHomography` function.
 
 If following tests will pass, your implementation is correct:
 
@@ -41,9 +23,13 @@ If following tests will pass, your implementation is correct:
 
     pytest tests/hw03/mandatory
 
+After you implement the function, you should also be able to visualize the circle centers
+by running the `excercises/lab03/03_homography.py` script, which loads the
+provided points (hoop poses) and transforms them back to image plane using inverse of H.
 
 At the end of the lab, you should be able to answer following questions:
 
-- how to compute Jacobian via finite difference
-- what is dimension of null-space? experiment with multi-dof planar robots
-- how to compute Jacobian analytically 
+- how to detect ArUco markers using OpenCV
+- what are homogeneous coordinates
+- what is homography matrix and how many degrees of freedom does it have
+- how to find homography using OpenCV

@@ -16,7 +16,7 @@ class TestHomograpy(unittest.TestCase):
     def __init__(self, *args, **kwargs):
         super(TestHomograpy, self).__init__(*args, **kwargs)
         repo_dir = Path(__file__).parent.parent.parent.parent
-        data_dir = repo_dir / "exercises" / "lab05_perception" / "hw_data"
+        data_dir = repo_dir / "exercises" / "lab03" / "hw_data"
 
         images_paths = [str(data_dir / f"hoop_grid_image_{i}.png") for i in range(17)]
         self.images = [cv2.imread(pth) for pth in images_paths]

@@ -30,8 +30,8 @@ def find_hoop_homography(images: ArrayLike, hoop_positions: List[dict]) -> np.nd
     images = np.asarray(images)
     assert images.shape[0] == len(hoop_positions)
 
-    # TODO: 1. Detect circle in each image
-    # TODO: 2. Find homography using cv2.findHomography. Use the hoop positions and circle centers.
+    # todo HW03: Detect circle in each image
+    # todo HW03: Find homography using cv2.findHomography. Use the hoop positions and circle centers.
 
     return find_hoop_homography_impl(images, hoop_positions)
     return find_hoop_homography_impl_contour(images, hoop_positions)
