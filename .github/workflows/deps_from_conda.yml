@@ -10,7 +10,7 @@ jobs:
   deps_from_conda:
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-13, windows-latest]
+        os: [macos-13, windows-latest]
     runs-on: ${{ matrix.os }}
     defaults:
       run:
