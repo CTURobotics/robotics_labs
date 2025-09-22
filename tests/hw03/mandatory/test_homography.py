@@ -13,19 +13,21 @@ import json
 
 
 class TestHomograpy(unittest.TestCase):
-    def __init__(self, *args, **kwargs):
-        super(TestHomograpy, self).__init__(*args, **kwargs)
+    def test_homography_pts(self):
         repo_dir = Path(__file__).parent.parent.parent.parent
         data_dir = repo_dir / "exercises" / "lab03" / "hw_data"
+        self.assertTrue(
+            data_dir.is_dir(),
+            f"The {data_dir.name} dir does not exist. Please download and extract the data first.",
+        )
 
         images_paths = [str(data_dir / f"hoop_grid_image_{i}.png") for i in range(17)]
-        self.images = [cv2.imread(pth) for pth in images_paths]
+        images = [cv2.imread(pth) for pth in images_paths]
 
         with open(data_dir / "hoop_positions.json") as f:
-            self.hoop_positions = json.load(f)
+            hoop_positions = json.load(f)
 
-    def test_homography_pts(self):
-        H = find_hoop_homography(self.images, self.hoop_positions)
+        H = find_hoop_homography(images, hoop_positions)
 
         img_pts = np.array(
             [
