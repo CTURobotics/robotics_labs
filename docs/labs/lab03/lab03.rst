@@ -3,6 +3,10 @@ Lab03: Perception
 =================
 
 In this lab we will show you how to use OpenCV for various vision tasks.
+First, download the required lab data at
+https://data.ciirc.cvut.cz/public/projects/2025CTURoboticsData/perception_hw_data.zip
+and unzip it to the `excercises/lab03` directory. Now you should have there `hw_data`
+directory with all the files required for the homework.
 
 Tests
 =====
