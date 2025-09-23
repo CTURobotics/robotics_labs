@@ -20,7 +20,7 @@ jobs:
       - uses: conda-incubator/setup-miniconda@v3
         with:
           python-version: "3.10"
-      - run: conda install -c conda-forge pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
+      - run: conda install -c conda-forge pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest opencv
       - run: pip install --no-deps -e .
       - run: pytest tests/test_geometry_utils.py
 #      - run: pytest tests/

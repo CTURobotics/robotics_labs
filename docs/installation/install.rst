@@ -65,7 +65,7 @@ Windows, MacOS, or Linux with dependencies installed through conda
 
     conda create -n ctu_robotics python=3.10
     conda activate ctu_robotics
-    conda install -c conda-forge pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest
+    conda install -c conda-forge pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest opencv
     pip install --no-deps -e .
 
 
