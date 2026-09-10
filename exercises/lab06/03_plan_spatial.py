@@ -52,3 +52,5 @@ with render.animation(fps=1):
         render.plot_manipulator(robot)
     # save_fig(renderer=render)
 # create_gif_from_mp4(create_mp4_from_folder(fps=5))
+
+render.wait_at_the_end()

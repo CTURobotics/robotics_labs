@@ -33,3 +33,5 @@ with renderer.animation(fps=10):
     for _ in range(10):
         robot.pose = robot.pose * SE3(translation=[0.1, 0.0, 0])
         renderer.plot_drone(robot)
+
+renderer.wait_at_the_end()
