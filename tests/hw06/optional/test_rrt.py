@@ -4,7 +4,6 @@
 # Created on: 2023-09-22
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
-import inspect
 import unittest
 import numpy as np
 from shapely import MultiPolygon, Point
@@ -13,6 +12,7 @@ from robotics_toolbox.core import SE2
 from robotics_toolbox.planning.rrt import RRT
 from robotics_toolbox.robots import PlanarManipulator
 from robotics_toolbox.utils import distance_between_configurations
+from tests.utils import assert_no_forbidden_imports
 
 
 class TestRRT(unittest.TestCase):
@@ -53,13 +53,9 @@ class TestRRT(unittest.TestCase):
         self.assertLess(total_dist_simplified, total_dist)
 
     def test_imported_modules(self):
-        """Test that you are not using pinocchio inside your implementation."""
-        with open(inspect.getfile(RRT)) as f:
-            self.assertTrue("pinocchio" not in f.read())
-        with open(inspect.getfile(RRT)) as f:
-            self.assertTrue("cv2" not in f.read())
-        with open(inspect.getfile(RRT)) as f:
-            self.assertTrue("scipy" not in f.read())
+        """Test that you are not using any external library (scipy, ...) inside your
+        implementation, only python standard library and numpy are allowed."""
+        assert_no_forbidden_imports(self, RRT)
 
 
 if __name__ == "__main__":

@@ -9,10 +9,16 @@ import numpy as np
 import cv2
 from pathlib import Path
 from robotics_toolbox.utils.perception import find_hoop_homography
+from tests.utils import assert_no_forbidden_imports
 import json
 
 
 class TestHomograpy(unittest.TestCase):
+    def test_imported_modules(self):
+        """Test that you are using only python standard library, numpy and OpenCV
+        (cv2) inside your implementation."""
+        assert_no_forbidden_imports(self, find_hoop_homography, allow=("cv2",))
+
     def test_homography_pts(self):
         repo_dir = Path(__file__).parent.parent.parent.parent
         data_dir = repo_dir / "exercises" / "lab03" / "hw_data"

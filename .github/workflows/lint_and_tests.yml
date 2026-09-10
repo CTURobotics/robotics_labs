@@ -8,9 +8,11 @@ on:
 
 jobs:
   lint-and-tests:
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ["3.10", "3.11", "3.12"]
     steps:
       - uses: actions/checkout@v4
@@ -20,5 +22,7 @@ jobs:
       - run: pdm install
       - run: pdm lint
       - run: pdm pytest tests/test_geometry_utils.py
+      # all tests can be collected without the implementation, they fail on asserts only
+      - run: pdm pytest --collect-only -q tests/
 #      - run: pdm test # this will run all the tests, but it is necessary to finish
 #        # the implementation of template for it to work

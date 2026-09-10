@@ -23,9 +23,9 @@ renderer.plot_se3(frame)
 q0 = np.random.uniform(low=-np.pi, high=np.pi, size=robot.dof)
 q1 = np.random.uniform(low=-np.pi, high=np.pi, size=robot.dof)
 
-"""Let's not animate gripper."""
-q0[-2:] = 0
-q1[-2:] = 0
+"""Let's not animate gripper, i.e. the last joint."""
+q0[-1] = 0
+q1[-1] = 0
 
 with renderer.animation(fps=10):
     for t in np.linspace(0, 1, num=50):

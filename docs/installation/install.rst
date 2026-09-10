@@ -2,12 +2,8 @@
 Installation instruction
 ========================
 
-The robotics toolbox works with Python versions 3.10, 3.11 and 3.12. On Linux
-it can be installed through conda or through a virtual environment and pip -
-dependencies are managed through PDM.
-On Windows and Mac, only conda is allowed as some of the dependencies are not available
-through pip. See instructions below for each platform, we recommend using linux as it is
-the most tested platform.
+The robotics toolbox works with Python versions 3.10, 3.11 and 3.12 on Linux, Windows and
+MacOS. All dependencies are installed through pip, no conda is needed.
 
 Clone the repository
 ======================
@@ -20,52 +16,52 @@ the template) and navigate to the root of the repository.
     git clone <your_github_repo>
     cd <your_github_repo_name>
 
-Conda installation
-==================
-
-If you are going to use Conda (recommended for linux, required for Win/Mac), you need to have it installed. Other conda alternatives like miniconda are also fine.
-For installation, see official `conda installation guide <https://docs.conda.io/projects/conda/en/latest/user-guide/install/index.html>`_.
-Our more detailed instructions for windows are available :doc:`conda_windows <conda_win_installation/conda_windows>`.
-
-.. toctree::
-    :maxdepth: 1
-
-    conda_win_installation/conda_windows
-
 Creating environment and installing dependencies
 ================================================
 
-Linux
------
+Create a virtual environment with Python 3.10 - 3.12, activate it, and install the toolbox
+together with its dependencies:
 
-Preferred option is through conda for reproducibility.
+.. code-block:: bash
+
+    python -m venv .venv
+    source .venv/bin/activate         # Linux / MacOS
+    .venv\Scripts\activate            # Windows (PowerShell or cmd)
+    pip install -e .
+
+If you use conda to manage Python versions, create the environment with conda and install
+the toolbox with pip afterwards:
 
 .. code-block:: bash
 
     conda create -n ctu_robotics python=3.10
     conda activate ctu_robotics
-    conda install -c conda-forge 'pdm>=2.15'
-    pdm install # this will install the toolbox and all the dependencies
+    pip install -e .
 
-
-If you dare, you can use PDM directly without conda:
+To verify the installation, run the tests of the provided utilities:
 
 .. code-block:: bash
 
-    # First install PDM https://pdm-project.org/en/latest/
-    pdm venv create -v --with-pip 3.10
-    source .venv/bin/activate
-    pdm install
+    pytest tests/test_geometry_utils.py
 
+Robot models
+------------
 
-Windows, MacOS, or Linux with dependencies installed through conda
-------------------------------------------------------------------
+The models of the Panda, Talos and Tiago robots used in the exercises are downloaded
+automatically from the internet by the `robot_descriptions` package the first time you use
+them and cached in your home directory (`~/.cache/robot_descriptions`, several hundreds of
+MB). Make sure you are online when running the spatial exercises for the first time.
+
+Development installation
+========================
+
+The dependencies of the project are managed by `PDM <https://pdm-project.org/>`_, which
+also provides scripts for testing, linting and formatting:
 
 .. code-block:: bash
 
-    conda create -n ctu_robotics python=3.10
-    conda activate ctu_robotics
-    conda install -c conda-forge pinocchio robomeshcat example-robot-data matplotlib numpy pycollada shapely anytree ruff black pytest opencv
-    pip install --no-deps -e .
-
-
+    pip install pdm
+    pdm install      # installs the toolbox and dev dependencies into .venv
+    pdm test
+    pdm lint
+    pdm format

@@ -6,10 +6,9 @@
 #
 import unittest
 import numpy as np
-import inspect
-import pinocchio as pin
 
 from robotics_toolbox.core import SO2
+from tests.utils import rot2, assert_no_forbidden_imports
 
 
 class TestSO2(unittest.TestCase):
@@ -26,7 +25,7 @@ class TestSO2(unittest.TestCase):
     def _so2_from_angle(angle: float) -> SO2:
         """Create SO2 from angle."""
         r = SO2()
-        r.rot = pin.exp(np.array([0, 0, angle]))[:2, :2]
+        r.rot = rot2(angle)
         return r
 
     def test_so2_initialization(self):
@@ -40,7 +39,7 @@ class TestSO2(unittest.TestCase):
     def test_reference_rotations(self):
         """This test requires implementation of constructor of SO2."""
         for a in np.linspace(-2 * np.pi, 2 * np.pi, num=1000):
-            ref_rot = pin.exp(np.array([0, 0, a]))[:2, :2]
+            ref_rot = rot2(a)
             t = SO2(a)
             self.assertTrue(np.allclose(ref_rot, t.rot))
 
@@ -60,7 +59,7 @@ class TestSO2(unittest.TestCase):
             a = np.random.rand(1)[0]
             t = self._so2_from_angle(a)
             v_ = t.act(v)
-            ref_rot = pin.exp(np.array([0, 0, a]))[:2, :2]
+            ref_rot = rot2(a)
             self.assertTrue(np.allclose(v_, ref_rot @ v))
 
     def test_act_trivial(self):
@@ -98,13 +97,9 @@ class TestSO2(unittest.TestCase):
         self.assertEqual(all_vars[0], "rot")
 
     def test_imported_modules(self):
-        """Test that you are not using pinocchio inside your implementation."""
-        with open(inspect.getfile(SO2)) as f:
-            self.assertTrue("pinocchio" not in f.read())
-        with open(inspect.getfile(SO2)) as f:
-            self.assertTrue("scipy" not in f.read())
-        with open(inspect.getfile(SO2)) as f:
-            self.assertTrue("cv2" not in f.read())
+        """Test that you are not using any external library (scipy, ...) inside your
+        implementation, only python standard library and numpy are allowed."""
+        assert_no_forbidden_imports(self, SO2)
 
 
 if __name__ == "__main__":

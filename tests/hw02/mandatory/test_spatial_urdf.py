@@ -9,60 +9,49 @@ from pathlib import Path
 import pickle
 import inspect
 import numpy as np
-import pinocchio as pin
-from sys import platform
+import yourdfpy
 from robotics_toolbox.robots import PlanarManipulator
+from robotics_toolbox.utils.urdf_utils import chain_ordered_joint_names, leaf_link
 
 
-def check_if_identity(pose1: pin.SE3, pose2: pin.SE3, error: float = 0.001) -> bool:
+def check_if_identity(
+    pose1: np.ndarray, pose2: np.ndarray, error: float = 0.001
+) -> bool:
     """check if transformation from pose1 to pose2 is identity with given error"""
-    pose_2_1 = pose2.inverse() * pose1
-    return pose_2_1.isIdentity(prec=error)
+    pose_2_1 = np.linalg.inv(pose2) @ pose1
+    return np.allclose(pose_2_1, np.eye(4), atol=error)
 
 
 class TestSpatialURDF(unittest.TestCase):
     def test_poses_of_links_frames(self):
         """test whether the poses of links are similar to the reference ones"""
         np.random.seed(0)
-        # making pinocchio model for testing
+        # loading the student URDF, only kinematics is needed
         path = Path(inspect.getfile(PlanarManipulator)).parent / "robot_hw.urdf"
-        student_mod, _, _ = pin.buildModelsFromUrdf(str(path))
-        student_data = student_mod.createData()
-
-        if platform == "linux" or platform == "linux2":
-            path = Path(__file__).parent / "pin_mod_pin_data.pickle"
-            with open(path, "rb") as file:
-                data = pickle.load(file)
-            pin_mod = data["mod"]
-            pin_data = data["data"]
-
-            # check 100 rand configurations with corespondence model
-            for i in range(100):
-                c = pin.randomConfiguration(pin_mod)
-                pin.forwardKinematics(student_mod, student_data, c)
-                pin.updateFramePlacements(student_mod, student_data)
-
-                pin.forwardKinematics(pin_mod, pin_data, c)
-                pin.updateFramePlacements(pin_mod, pin_data)
-
-                self.assertTrue(
-                    check_if_identity(pin_data.oMf[-1], student_data.oMf[-1]),
-                    msg=f"Configuration {i} failed. \n frame {i} should be \n "
-                    f"{pin_data.oMf[-1].homogeneous} \n but is \n "
-                    f"{student_data.oMf[-1].homogeneous}",
-                )
-        data = pickle.load(
-            open(Path(__file__).parent / "pin_mod_student_data.pickle", "rb")
+        student_urdf = yourdfpy.URDF.load(
+            str(path), load_meshes=False, build_scene_graph=True
         )
+        # configuration is interpreted in the order of the kinematic chain, the end
+        # effector is the last link of the chain
+        joint_names = chain_ordered_joint_names(student_urdf)
+        end_effector = leaf_link(student_urdf)
+
+        with open(Path(__file__).parent / "reference_poses.pickle", "rb") as file:
+            data = pickle.load(file)
         configs = data["configs"]
         poses = data["poses"]
         for i, (c, ref_pose) in enumerate(zip(configs, poses)):
-            pin.forwardKinematics(student_mod, student_data, c)
-            pin.updateFramePlacements(student_mod, student_data)
+            self.assertEqual(
+                len(joint_names),
+                len(c),
+                msg=f"Robot should have {len(c)} actuated joints, found {joint_names}.",
+            )
+            student_urdf.update_cfg(dict(zip(joint_names, c)))
+            pose = student_urdf.get_transform(end_effector, student_urdf.base_link)
             self.assertTrue(
-                check_if_identity(pin.SE3(ref_pose), student_data.oMf[-1]),
+                check_if_identity(ref_pose, pose),
                 msg=f"Configuration {c} failed. \n frame {i} should be \n "
-                f"{ref_pose} \n but is \n {student_data.oMf[-1].homogeneous}",
+                f"{ref_pose} \n but is \n {pose}",
             )
 
 

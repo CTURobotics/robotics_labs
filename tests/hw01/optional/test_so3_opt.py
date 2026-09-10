@@ -6,9 +6,9 @@
 #
 import unittest
 import numpy as np
-import pinocchio as pin
 
 from robotics_toolbox.core import SO3
+from tests.utils import exp3, quat_xyzw, rot_from_quat_xyzw
 
 
 class TestSO3Opt(unittest.TestCase):
@@ -16,35 +16,35 @@ class TestSO3Opt(unittest.TestCase):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi)
-            self.assertEqual(SO3.rx(a), SO3(pin.exp(np.array([a, 0, 0]))))
+            self.assertEqual(SO3.rx(a), SO3(exp3(np.array([a, 0, 0]))))
 
     def test_ry(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi)
-            self.assertEqual(SO3.ry(a), SO3(pin.exp(np.array([0, a, 0]))))
+            self.assertEqual(SO3.ry(a), SO3(exp3(np.array([0, a, 0]))))
 
     def test_rz(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi)
-            self.assertEqual(SO3.rz(a), SO3(pin.exp(np.array([0, 0, a]))))
+            self.assertEqual(SO3.rz(a), SO3(exp3(np.array([0, 0, a]))))
 
     def test_from_q(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
-            r = SO3(pin.exp(a))
-            q = pin.Quaternion(r.rot)
-            self.assertEqual(SO3.from_quaternion(q.coeffs()), r)
+            r = SO3(exp3(a))
+            q = quat_xyzw(r.rot)
+            self.assertEqual(SO3.from_quaternion(q), r)
 
     def test_to_q(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
-            r = SO3(pin.exp(a))
+            r = SO3(exp3(a))
             q = r.to_quaternion()
-            self.assertEqual(r, SO3(pin.Quaternion(q).toRotationMatrix()))
+            self.assertEqual(r, SO3(rot_from_quat_xyzw(q)))
 
     def test_from_ea(self):
         np.random.seed(0)
@@ -60,7 +60,7 @@ class TestSO3Opt(unittest.TestCase):
             for ax, av in zip([ind[s1], ind[s2], ind[s3]], a):
                 v = np.zeros(3)
                 v[ax] = av
-                rot = rot @ pin.exp(v)
+                rot = rot @ exp3(v)
             self.assertEqual(r, SO3(rot))
 
     def test_from_angle_axis(self):
@@ -69,14 +69,14 @@ class TestSO3Opt(unittest.TestCase):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             angle = np.linalg.norm(a)
             axis = a / angle
-            self.assertEqual(SO3.from_angle_axis(angle, axis), SO3(pin.exp(a)))
+            self.assertEqual(SO3.from_angle_axis(angle, axis), SO3(exp3(a)))
 
     def test_to_angle_axis(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
-            angle, axis = SO3(pin.exp(a)).to_angle_axis()
-            self.assertEqual(SO3(pin.exp(a)), SO3(pin.exp(angle * axis)))
+            angle, axis = SO3(exp3(a)).to_angle_axis()
+            self.assertEqual(SO3(exp3(a)), SO3(exp3(angle * axis)))
 
 
 if __name__ == "__main__":

@@ -4,12 +4,11 @@
 # Created on: 2023-09-20
 #     Author: Vladimir Petrik <vladimir.petrik@cvut.cz>
 #
-import inspect
 import unittest
 import numpy as np
 
 from robotics_toolbox.robots import PlanarManipulator
-from tests.utils import sample_planar_manipulator
+from tests.utils import sample_planar_manipulator, assert_no_forbidden_imports
 
 
 class TestIK(unittest.TestCase):
@@ -51,10 +50,6 @@ class TestIK(unittest.TestCase):
                 self.assertLess(np.abs(diff.rotation.angle), 1e-4)
 
     def test_imported_modules(self):
-        """Test that you are not using pinocchio inside your implementation."""
-        with open(inspect.getfile(PlanarManipulator)) as f:
-            self.assertTrue("pinocchio" not in f.read())
-        with open(inspect.getfile(PlanarManipulator)) as f:
-            self.assertTrue("cv2" not in f.read())
-        with open(inspect.getfile(PlanarManipulator)) as f:
-            self.assertTrue("scipy" not in f.read())
+        """Test that you are not using any external library (scipy, ...) inside your
+        implementation, only python standard library and numpy are allowed."""
+        assert_no_forbidden_imports(self, PlanarManipulator)

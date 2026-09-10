@@ -20,7 +20,8 @@ For example, to test the first homework locally you can run:
 In addition to tests, there are exercises that use your implemented functionality and demonstrate the usage of the framework. See exercises folder.
 
 You are allowed to use only the following software packages to implement missing parts of the code:
-```python standard library, numpy, robomeshcat (only for visualization), anytree```
+```python standard library, numpy``` (and ```opencv``` in the perception lab).
+Other packages (matplotlib, viser, yourdfpy, ...) are used by the provided visualization and robot loading code only, you must not use them in your implementation; the unit tests check for that.
 
 
 **BRUTE** To get points for the assignments in CTU evaluation system BRUTE, zip the src folder and upload the zip to the BRUTE system.

@@ -7,10 +7,9 @@
 import unittest
 import numpy as np
 from numpy.testing import assert_allclose
-import inspect
-import pinocchio as pin
 
 from robotics_toolbox.core import SE3, SO3
+from tests.utils import exp3, hom3, assert_no_forbidden_imports
 
 
 class TestSE3(unittest.TestCase):
@@ -26,20 +25,19 @@ class TestSE3(unittest.TestCase):
             v = np.random.rand(3)
             t = np.random.rand(3)
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
-            v_ = SE3(t, SO3(pin.exp(a))).act(v)
-            ref_t = pin.SE3(pin.exp(a), t)
-            ref_v_ = ref_t.act(v)
-            self.assertTrue(np.allclose(v_, ref_v_))
+            v_ = SE3(t, SO3(exp3(a))).act(v)
+            ref_v_ = hom3(exp3(a), t) @ np.append(v, 1)
+            self.assertTrue(np.allclose(v_, ref_v_[:3]))
 
     def test_inverse(self):
         np.random.seed(0)
         for _ in range(100):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             t = np.random.uniform(-10, 10, size=3)
-            r = SO3(pin.exp(a))
+            r = SO3(exp3(a))
             pose = SE3(t, r)
-            exp = pin.SE3(pose.homogeneous()).inverse()
-            assert_allclose(pose.inverse().homogeneous(), exp.homogeneous)
+            exp = np.linalg.inv(pose.homogeneous())
+            assert_allclose(pose.inverse().homogeneous(), exp)
 
     def test_composition(self):
         np.random.seed(0)
@@ -49,14 +47,11 @@ class TestSE3(unittest.TestCase):
             a_ = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             t_ = np.random.uniform(-10, 10, size=3)
 
-            ta = SE3(t, SO3(pin.exp(a)))
-            tb = SE3(t_, SO3(pin.exp(a_)))
+            ta = SE3(t, SO3(exp3(a)))
+            tb = SE3(t_, SO3(exp3(a_)))
             tc = ta * tb
 
-            pin_ta = pin.SE3(pin.exp(a), t)
-            pin_tb = pin.SE3(pin.exp(a_), t_)
-            pin_c: pin.SE3 = pin_ta * pin_tb
-            m = pin_c.homogeneous
+            m = hom3(exp3(a), t) @ hom3(exp3(a_), t_)
 
             self.assertTrue(np.allclose(m[:3, :3], tc.rotation.rot))
             self.assertTrue(np.allclose(m[:3, 3], tc.translation))
@@ -69,13 +64,9 @@ class TestSE3(unittest.TestCase):
         self.assertTrue("rotation" in all_vars)
 
     def test_imported_modules(self):
-        """Test that you are not using pinocchio inside your implementation."""
-        with open(inspect.getfile(SE3)) as f:
-            self.assertTrue("pinocchio" not in f.read())
-        with open(inspect.getfile(SE3)) as f:
-            self.assertTrue("scipy" not in f.read())
-        with open(inspect.getfile(SE3)) as f:
-            self.assertTrue("cv2" not in f.read())
+        """Test that you are not using any external library (scipy, ...) inside your
+        implementation, only python standard library and numpy are allowed."""
+        assert_no_forbidden_imports(self, SE3)
 
 
 if __name__ == "__main__":

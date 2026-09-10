@@ -7,16 +7,15 @@
 import unittest
 import numpy as np
 from numpy.testing import assert_allclose
-import inspect
-import pinocchio as pin
 
 from robotics_toolbox.core import SO3
+from tests.utils import exp3, assert_no_forbidden_imports
 
 
 class TestSO3(unittest.TestCase):
     @staticmethod
     def so3_from_exp(v):
-        return SO3(pin.exp(v))
+        return SO3(exp3(v))
 
     def test_so3_initialization(self):
         """Works by default, no implementation needed."""
@@ -60,7 +59,7 @@ class TestSO3(unittest.TestCase):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             b = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             c = self.so3_from_exp(a) * self.so3_from_exp(b)
-            self.assertEqual(c, SO3(pin.exp(a) @ pin.exp(b)))
+            self.assertEqual(c, SO3(exp3(a) @ exp3(b)))
 
     def test_act(self):
         """Passes by default"""
@@ -69,7 +68,7 @@ class TestSO3(unittest.TestCase):
             a = np.random.uniform(-2 * np.pi, 2 * np.pi, size=3)
             v = np.random.rand(3)
             v_ = self.so3_from_exp(a).act(v)
-            self.assertTrue(np.allclose(v_, pin.exp(a) @ v))
+            self.assertTrue(np.allclose(v_, exp3(a) @ v))
 
     def test_only_rot_variable(self):
         """Test that SO3 has only rot variable. Pass by default."""
@@ -79,14 +78,10 @@ class TestSO3(unittest.TestCase):
         self.assertEqual(all_vars[0], "rot")
 
     def test_imported_modules(self):
-        """Test that you are not using pinocchio inside your implementation.
+        """Test that you are not using any external library (scipy, ...) inside your
+        implementation, only python standard library and numpy are allowed.
         Pass by default."""
-        with open(inspect.getfile(SO3)) as f:
-            self.assertTrue("pinocchio" not in f.read())
-        with open(inspect.getfile(SO3)) as f:
-            self.assertTrue("scipy" not in f.read())
-        with open(inspect.getfile(SO3)) as f:
-            self.assertTrue("cv2" not in f.read())
+        assert_no_forbidden_imports(self, SO3)
 
 
 if __name__ == "__main__":

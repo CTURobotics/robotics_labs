@@ -6,10 +6,9 @@
 #
 import unittest
 import numpy as np
-import inspect
-import pinocchio as pin
 
 from robotics_toolbox.core import SE2, SO2
+from tests.utils import hom2, assert_no_forbidden_imports
 
 
 class TestSE2(unittest.TestCase):
@@ -29,8 +28,7 @@ class TestSE2(unittest.TestCase):
             t = np.random.rand(2)
             a = np.random.rand(1)[0]
             v_ = SE2(t, SO2(a)).act(v)
-            ref_t = pin.SE3(pin.exp(np.array([0, 0, a])), np.append(t, 0))
-            ref_v_ = ref_t.act(np.append(v, 0))
+            ref_v_ = hom2(a, t) @ np.append(v, 1)
             self.assertTrue(np.allclose(v_, ref_v_[:2]))
 
     def test_inverse(self):
@@ -53,23 +51,16 @@ class TestSE2(unittest.TestCase):
             tb = SE2(t_, SO2(a_))
             tc = ta * tb
 
-            pin_ta = pin.SE3(pin.exp(np.array([0, 0, a])), np.append(t, 0))
-            pin_tb = pin.SE3(pin.exp(np.array([0, 0, a_])), np.append(t_, 0))
-            pin_c: pin.SE3 = pin_ta * pin_tb
-            m = pin_c.homogeneous
+            m = hom2(a, t) @ hom2(a_, t_)
 
             self.assertTrue(np.allclose(m[:2, :2], tc.rotation.rot))
-            self.assertTrue(np.allclose(m[:2, 3], tc.translation))
+            self.assertTrue(np.allclose(m[:2, 2], tc.translation))
 
     def test_imported_modules(self):
-        """Test that you are not using pinocchio inside your implementation. Passing by
-        default."""
-        with open(inspect.getfile(SE2)) as f:
-            self.assertTrue("pinocchio" not in f.read())
-        with open(inspect.getfile(SE2)) as f:
-            self.assertTrue("scipy" not in f.read())
-        with open(inspect.getfile(SE2)) as f:
-            self.assertTrue("cv2" not in f.read())
+        """Test that you are not using any external library (scipy, ...) inside your
+        implementation, only python standard library and numpy are allowed.
+        Passing by default."""
+        assert_no_forbidden_imports(self, SE2)
 
     def test_only_rotation_and_translation_variables(self):
         """Test that SE2 has only rotation and translation variables. Passing by
