@@ -5,9 +5,10 @@ description = "Robotics toolbox used to teach basic robotics at CTU."
 authors = [
     { name = "Vladimir Petrik", email = "vladimir.petrik@cvut.cz" },
 ]
-requires-python = "<=3.12,>=3.10"
+requires-python = ">=3.10,<3.13"
 readme = "README.rst"
-license = { text = "BSD-3-Clause license" }
+license = "BSD-3-Clause"
+license-files = ["LICENSE"]
 
 dependencies = [
     "numpy>=1.26.4",
@@ -24,10 +25,7 @@ dependencies = [
     "imageio>=2.35.1",
 ]
 
-
-[tool.pdm]
-distribution = true
-[tool.pdm.dev-dependencies]
+[dependency-groups]
 test = [
     "pytest>=7.4.3",
 ]
@@ -39,19 +37,24 @@ doc = [
     "sphinx",
     "sphinx-rtd-theme>=2.0.0",
 ]
+dev = [
+    { include-group = "test" },
+    { include-group = "lint" },
+    { include-group = "doc" },
+]
 
+[tool.uv]
+default-groups = ["dev"]
 
-[tool.pdm.scripts]
-pytest = "pytest"
-test = "pytest -v tests/"
-coverage = "coverage run --source src -m pytest tests/"
-post_coverage = "coverage xml"
-ruff = "ruff check src tests exercises"
-black = "black --check --diff --verbose src tests exercises"
-format = "black src tests exercises"
-lint = { composite = ["ruff", "black"] }
-doc_to_html = "sphinx-build -b html docs/ docs/_build"
 [build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
+requires = ["uv_build>=0.8.0,<0.9.0"]
+build-backend = "uv_build"
 
+[tool.ruff]
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.black]
+target-version = ["py310"]

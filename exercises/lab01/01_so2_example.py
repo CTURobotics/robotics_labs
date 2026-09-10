@@ -13,7 +13,6 @@ import numpy as np
 from robotics_toolbox.core.so2 import SO2
 from robotics_toolbox.render import RendererPlanar
 
-
 # Let's visualize a few frames
 renderer = RendererPlanar(xlim=(-0.25, 0.4), ylim=(-0.25, 0.4))
 
