@@ -8,6 +8,16 @@ https://data.ciirc.cvut.cz/public/projects/2025CTURoboticsData/perception_hw_dat
 and unzip it to the `excercises/lab03` directory. Now you should have there `hw_data`
 directory with all the files required for the homework.
 
+Overview notebook
+=================
+
+The topics covered in this lab (homogeneous coordinates and camera projection, homography,
+ArUco marker detection and pose estimation, introduction to the homework, and hints for
+detecting the hoop using OpenCV) are summarized in the Jupyter notebook
+`exercises/lab03/lab03_overview_notebook.ipynb` (in Czech). You can run it locally from the
+`exercises/lab03` directory, or view it online in
+`nbviewer <https://nbviewer.org/urls/people.ciirc.cvut.cz/~cifkamar/b3b33rob1_2026/lab03_overview_notebook.ipynb>`_.
+
 Tests
 =====
 
