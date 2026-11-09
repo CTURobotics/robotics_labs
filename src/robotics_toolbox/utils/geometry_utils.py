@@ -30,7 +30,7 @@ def circle_circle_intersection(
     c0 = np.asarray(c0)
     c1 = np.asarray(c1)
     d = np.linalg.norm(c1 - c0)
-    if r0 + r1 < d < np.abs(r0 - r1):
+    if d > r0 + r1 or d < np.abs(r0 - r1):  # circles apart or one inside the other
         return []
 
     if np.isclose(d, 0) and np.isclose(r0, r1):

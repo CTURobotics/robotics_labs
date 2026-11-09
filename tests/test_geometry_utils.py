@@ -35,6 +35,10 @@ class TestGeometryUtils(unittest.TestCase):
         self.assertAlmostEqual(np.linalg.norm(a), 1.0)
         self.assertAlmostEqual(np.linalg.norm(b), 1.0)
 
+        # no intersection: circles apart, or one circle inside the other
+        self.assertEqual(len(circle_circle_intersection([0, 0], 1, [3, 0], 1)), 0)
+        self.assertEqual(len(circle_circle_intersection([0, 0], 2, [0.5, 0], 0.5)), 0)
+
     def test_circ_line_intersection(self):
         ints = circle_line_intersection([0, 0], 1, [-5, 0], [5, 0])
         self.assertEqual(len(ints), 2)
@@ -57,6 +61,9 @@ class TestGeometryUtils(unittest.TestCase):
         self.assertAlmostEqual(ay, -2.0)
         self.assertAlmostEqual(bx, 0.0)
         self.assertAlmostEqual(by, 2.0)
+
+        # no intersection: line passes the circle
+        self.assertEqual(len(circle_line_intersection([0, 0], 1, [-5, 2], [5, 2])), 0)
 
 
 if __name__ == "__main__":
