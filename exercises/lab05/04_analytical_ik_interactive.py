@@ -18,7 +18,7 @@ import numpy as np
 from robotics_toolbox.core import SE2
 from robotics_toolbox.robots import PlanarManipulator
 
-from ik_drag_window import DragTargetWindow, draw_robot_config
+from ik_drag_window import DragTargetWindow, RobotArtist
 
 STRUCTURES = {"1": "RRR", "2": "PRR"}
 COLORS = matplotlib.colormaps["tab10"].colors
@@ -29,6 +29,25 @@ robot = PlanarManipulator(
     structure="PRR",
 )
 target = robot.flange_pose()
+
+app = DragTargetWindow(
+    target,
+    base_pose=robot.base_pose,
+    lim_scale=2.0,
+    title="Analytical IK: drag the target",
+    help_text="1: RRR   2: PRR",
+)
+solution_artists: list[RobotArtist] = []
+problem_text = app.ax.text(
+    0.02,
+    0.98,
+    "",
+    transform=app.ax.transAxes,
+    color="tab:red",
+    fontsize=9,
+    va="top",
+    wrap=True,
+)
 
 
 def solve(app: DragTargetWindow) -> str:
@@ -51,22 +70,29 @@ def solve(app: DragTargetWindow) -> str:
             "found.' in that case)."
         )
     solutions = [q for q in solutions if np.all(np.isfinite(q))]
-    if problems:
-        app.ax.text(
-            0.02,
-            0.98,
-            "\n".join(problems),
-            transform=app.ax.transAxes,
-            color="tab:red",
-            fontsize=9,
-            va="top",
-            wrap=True,
-        )
+    problem_text.set_text("\n".join(problems))
 
-    for i, q in enumerate(solutions):
-        draw_robot_config(app.ax, robot, q, color=COLORS[i], label=f"solution {i + 1}")
+    while len(solution_artists) < len(solutions):
+        i = len(solution_artists)
+        solution_artists.append(
+            RobotArtist(
+                app.ax, robot, color=COLORS[i % len(COLORS)], label=f"solution {i + 1}"
+            )
+        )
+    for i, artist in enumerate(solution_artists):
+        if i < len(solutions):
+            artist.set(solutions[i], structure=robot.structure)
+        else:
+            artist.set_visible(False)
+    legend = app.ax.get_legend()
+    if legend is not None:
+        legend.remove()
     if solutions:
-        app.ax.legend(loc="upper right", fontsize=8)
+        app.ax.legend(
+            handles=[a.handle for a in solution_artists[: len(solutions)]],
+            loc="upper right",
+            fontsize=8,
+        )
 
     lines = [f"{robot.structure}: {len(solutions)} solution(s)"]
     for i, q in enumerate(solutions):
@@ -85,13 +111,6 @@ def on_key(app: DragTargetWindow, key: str):
         app.update()
 
 
-app = DragTargetWindow(
-    target,
-    base_pose=robot.base_pose,
-    lim_scale=2.0,
-    title="Analytical IK: drag the target",
-    help_text="1: RRR   2: PRR",
-)
 app.on_update = solve
 app.on_key = on_key
 
