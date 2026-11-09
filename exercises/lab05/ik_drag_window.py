@@ -95,14 +95,17 @@ class TrailArtist:
         ax.add_collection(self.lines)
         self.joints = ax.scatter([], [], s=12, zorder=2)
 
-    def set(self, configurations):
+    def set(self, configurations, positions=None, opaque_first=True):
+        """Show the configurations; positions are their colormap positions in [0, 1]
+        (evenly spread by default). The first pose is opaque if opaque_first."""
         configurations = list(configurations)
         n = len(configurations)
-        positions = np.linspace(0.0, 1.0, num=n) if n > 1 else np.zeros(n)
+        if positions is None:
+            positions = np.linspace(0.0, 1.0, num=n) if n > 1 else np.zeros(n)
         segments, seg_colors, joints, joint_colors = [], [], [], []
         for k, (q, pos) in enumerate(zip(configurations, positions)):
             color = self.cmap(pos)
-            color = (*color[:3], 1.0 if k == 0 else self.alpha)
+            color = (*color[:3], 1.0 if (k == 0 and opaque_first) else self.alpha)
             self.robot.q = np.asarray(q, float)
             frames = self.robot.fk_all_links()
             pts = [f.translation for f in frames]
@@ -152,6 +155,8 @@ class DragTargetWindow:
         self.ax.set_xlabel("x [m]")
         self.ax.set_ylabel("y [m]")
         self.ax.set_title(title)
+        self.ax.grid(True, color="0.9", lw=0.8)
+        self.ax.set_axisbelow(True)
         self._tol = 0.03 * np.ptp(self.ax.get_xlim())  # grab radius [m]
         self._status = self.fig.text(
             0.08, 0.135, "", family="monospace", fontsize=9.5, va="top"
@@ -220,6 +225,12 @@ class DragTargetWindow:
     def update(self):
         self._update_target()
         status = self.on_update(self) if self.on_update is not None else ""
+        self._status.set_text(status)
+        self.fig.canvas.draw_idle()
+
+    def refresh(self, status: str):
+        """Redraw the target and show a status text without calling on_update."""
+        self._update_target()
         self._status.set_text(status)
         self.fig.canvas.draw_idle()
 
